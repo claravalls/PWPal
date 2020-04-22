@@ -5,11 +5,7 @@ use SallePW\SlimApp\Controller\PostSignInController;
 use SallePW\SlimApp\Controller\SignInController;
 use \SallePW\SlimApp\Middleware\StartSessionMiddleware;
 
-use \SallePW\SlimApp\Controller\VisitsController;
-use \SallePW\SlimApp\Controller\CookieMonsterController;
 use \SallePW\SlimApp\Controller\FlashController;
-
-use \SallePW\SlimApp\Controller\PostUserController;
 
 $app->add(StartSessionMiddleware::class);
 

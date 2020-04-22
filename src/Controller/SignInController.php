@@ -25,10 +25,8 @@ final class SignInController
 
         return $this->container->get('view')->render(
             $response,
-            'home.twig',
-            [
-                'notifications' => $notifications
-            ]
+            'signin.twig',
+            []
         );
     }
 }

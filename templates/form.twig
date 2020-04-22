@@ -1,0 +1,15 @@
+{% extends "base.twig" %}
+
+{% block title %}Sign in{% endblock %}
+
+{% block content %}
+    <h1>{% block header %}{% endblock %}</h1>
+
+    <form {% block form_header %}{% endblock %}>
+        <input type="email" name="email" value="" placeholder="Enter your email" required>
+        <input type="password" name="password" value="" placeholder="Enter your password" required>
+        <input type="hidden" name="action" value={% block type %}{% endblock %}>
+        <button type="submit">{% block button %}{% endblock %}</button>
+    </form>
+
+{% endblock %}
