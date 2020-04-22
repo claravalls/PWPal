@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="WEB_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/slim-skeleton/src" isTestSource="false" packagePrefix="SallePW\SlimApp\" />
+      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/slim-skeleton/vendor/composer" />
+      <excludeFolder url="file://$MODULE_DIR$/slim-skeleton/vendor/dflydev/fig-cookies" />
+      <excludeFolder url="file://$MODULE_DIR$/slim-skeleton/vendor/fig/http-message-util" />
+      <excludeFolder url="file://$MODULE_DIR$/slim-skeleton/vendor/jeremeamia/superclosure" />
+      <excludeFolder url="file://$MODULE_DIR$/slim-skeleton/vendor/nikic/fast-route" />
+      <excludeFolder url="file://$MODULE_DIR$/slim-skeleton/vendor/nikic/php-parser" />
+      <excludeFolder url="file://$MODULE_DIR$/slim-skeleton/vendor/php-di/invoker" />
+      <excludeFolder url="file://$MODULE_DIR$/slim-skeleton/vendor/php-di/php-di" />
+      <excludeFolder url="file://$MODULE_DIR$/slim-skeleton/vendor/php-di/phpdoc-reader" />
+      <excludeFolder url="file://$MODULE_DIR$/slim-skeleton/vendor/php-di/slim-bridge" />
+      <excludeFolder url="file://$MODULE_DIR$/slim-skeleton/vendor/psr/container" />
+      <excludeFolder url="file://$MODULE_DIR$/slim-skeleton/vendor/psr/http-factory" />
+      <excludeFolder url="file://$MODULE_DIR$/slim-skeleton/vendor/psr/http-message" />
+      <excludeFolder url="file://$MODULE_DIR$/slim-skeleton/vendor/psr/http-server-handler" />
+      <excludeFolder url="file://$MODULE_DIR$/slim-skeleton/vendor/psr/http-server-middleware" />
+      <excludeFolder url="file://$MODULE_DIR$/slim-skeleton/vendor/ralouphie/getallheaders" />
+      <excludeFolder url="file://$MODULE_DIR$/slim-skeleton/vendor/slim/flash" />
+      <excludeFolder url="file://$MODULE_DIR$/slim-skeleton/vendor/slim/psr7" />
+      <excludeFolder url="file://$MODULE_DIR$/slim-skeleton/vendor/slim/slim" />
+      <excludeFolder url="file://$MODULE_DIR$/slim-skeleton/vendor/slim/twig-view" />
+      <excludeFolder url="file://$MODULE_DIR$/slim-skeleton/vendor/symfony/dotenv" />
+      <excludeFolder url="file://$MODULE_DIR$/slim-skeleton/vendor/symfony/polyfill-ctype" />
+      <excludeFolder url="file://$MODULE_DIR$/slim-skeleton/vendor/symfony/polyfill-mbstring" />
+      <excludeFolder url="file://$MODULE_DIR$/slim-skeleton/vendor/symfony/polyfill-php56" />
+      <excludeFolder url="file://$MODULE_DIR$/slim-skeleton/vendor/symfony/polyfill-util" />
+      <excludeFolder url="file://$MODULE_DIR$/slim-skeleton/vendor/twig/twig" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
