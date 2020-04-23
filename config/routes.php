@@ -32,8 +32,13 @@ $app->get(
 
 $app->post(
     '/sign-up',
-    PostSignInController::class . ":signInUser"
+    SignUpController::class . ":validateUser"
 )->setName('create_user');
+
+$app->get(
+    '/flash',
+    FlashController::class . ":addMessage"
+)->setName('flash');
 
 /*
 $app->get(
@@ -46,10 +51,7 @@ $app->get(
     CookieMonsterController::class . ":showAdvice"
 )->setName('cookies');
 
-$app->get(
-    '/flash',
-    FlashController::class . ":addMessage"
-)->setName('flash');
+
 
 $app->post(
     '/users',
