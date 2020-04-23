@@ -1,0 +1,17 @@
+{% extends "base.twig" %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+    <h1>{% block header %}{% endblock %}</h1>
+
+    <form {% block form_header %}{% endblock %}>
+        <input type="email" name="email" value="" placeholder="Enter your email" required>
+        <input type="password" name="password" value="" placeholder="Enter your password" required>
+        <input type="date" name="birthday" value="" required>
+        <input type="tel" id="phone" name="phone" placeholder="+34" pattern="[0-9]{3}[0-9]{3}[0-9]{3}">
+        <input type="hidden" name="action" value={% block type %}{% endblock %}>
+        <button type="submit">{% block button %}{% endblock %}</button>
+    </form>
+
+{% endblock %}
