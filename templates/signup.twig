@@ -10,7 +10,7 @@
 {% block other %}
 
 <input type="date" name="birthday" value="{{ birthday }}" required>
-<input type="tel" id="phone" name="phone" placeholder="+34" pattern="[0-9]{3}[0-9]{3}[0-9]{3}" value="{{ phone }}">
+<input type="tel" id="phone" name="phone" placeholder="+34" pattern="[+]{1}[34]{2}[0-9]{3}[0-9]{3}[0-9]{3}" value="{{ phone }}">
 
     {% if errors is not empty %}
         <ol>

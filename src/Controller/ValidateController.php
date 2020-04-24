@@ -30,7 +30,7 @@ class ValidateController
         $type = $data['action'] ?? '';
 
         if($type == "up"){
-            $errors = $this->isValid($data['email'], $data['password'], $data['birthday']);
+            $errors = $this->isValid($data['email'], $data['password'], $data['birthday'], $data['phone']);
             if(empty($errors))
             {
                 $user = new User(
@@ -49,12 +49,16 @@ class ValidateController
                 $response,
                 'signup.twig',
                 [
-                    'errors' => $errors
+                    'errors' => $errors,
+                    'email' => $data['email'],
+                    'password' => $data['password'],
+                    'birthday' => $data['birthday'],
+                    'phone' => $data['phone']
                 ]
             );
         }
         else if ($type == "in"){
-            $errors = $this->isValid($data['email'], $data['password'], NULL);
+            $errors = $this->isValid($data['email'], $data['password'], NULL, NULL);
             if(empty($errors))
             {
                 //COMPROVAR A LA DATABASE
@@ -71,7 +75,7 @@ class ValidateController
         }
     }
 
-    function isValid(?string $email, ?string $password, ?string $birthday)
+    function isValid(?string $email, ?string $password, ?string $birthday, ?string $phone)
     {
         $errors = [];
 
@@ -89,6 +93,11 @@ class ValidateController
         {
             $errors[] = 'Only users of legal age (more than 18 years) can be registered';
         }
+        if($this->validatePhoneNumber($phone) == false)
+        {
+            $errors[] = 'Incorrect format of phone number';
+        }
+
         return $errors;
     }
 
@@ -120,11 +129,31 @@ class ValidateController
         return true;
     }
 
+    function validatePhoneNumber($phone)
+    {
+        if(strlen($phone) ==0) {
+            return true;
+        }else {
+            $filtered_phone_number = filter_var($phone, FILTER_SANITIZE_NUMBER_INT);
+            if ($phone != NULL) {
+                if (strlen($filtered_phone_number) < 10 || strlen($filtered_phone_number) > 14) {
+                    return false;
+                } else {
+                    if (substr($filtered_phone_number, 0, 3) == '+34') {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        }
+    }
+
     public function sendEmail($email)
     {
         // Instantiation and passing `true` enables exceptions
         $mail = new PHPMailer(true);
-        $token = md5(rand(0, 1000), true);
+        $token = md5(rand(0, 1000));
         try {
             //Server settings
             $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
