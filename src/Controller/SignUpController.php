@@ -44,7 +44,7 @@ final class SignUpController
 
         $email = $_POST['email'];
         $notifications = $messages['notifications'] ?? [];
-        $errors = $this->isValid($data['email'], $data['password'], $data['birthday']);
+        $errors = $this->isValid($data['email'], $data['password'], $data['birthday'], $data['phone']);
         if(empty($errors))
         {
 
@@ -75,7 +75,7 @@ final class SignUpController
 
     }
 
-    function isValid(?string $email, ?string $password, ?string $birthday)
+    function isValid(?string $email, ?string $password, ?string $birthday, ?string $phone)
     {
         $errors = [];
 
@@ -93,6 +93,10 @@ final class SignUpController
         {
             $errors[] = 'Only users of legal age (more than 18 years) can be registered';
         }
+        if($this->validatePhoneNumber($phone) == false)
+        {
+            $errors[] = 'Incorrect format of phone number';
+        }
         return $errors;
     }
 
@@ -104,12 +108,12 @@ final class SignUpController
 
         $domain = explode("@", $email, 2);
 
-        //if($domain[1] == "salle.url.edu")
-        //{
+        if($domain[1] == "salle.url.edu")
+        {
             return true;
-        //}
+        }
 
-        //return false;
+        return false;
 
     }
 
@@ -123,6 +127,26 @@ final class SignUpController
             return false;
         }
         return true;
+    }
+
+    function validatePhoneNumber($phone)
+    {
+        if(strlen($phone) ==0) {
+            return true;
+        }else {
+            $filtered_phone_number = filter_var($phone, FILTER_SANITIZE_NUMBER_INT);
+            if ($phone != NULL) {
+                if (strlen($filtered_phone_number) < 10 || strlen($filtered_phone_number) > 14) {
+                    return false;
+                } else {
+                    if (substr($filtered_phone_number, 0, 3) == '+34') {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        }
     }
 
     public function sendEmail($email)
