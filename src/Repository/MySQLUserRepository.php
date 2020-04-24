@@ -49,7 +49,7 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
     public function search(String $email): User
     {
         $query = <<<'QUERY'
-        SELECT * FROM USER WHERE email=:email
+        SELECT * FROM user WHERE email=:email
 QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $statement = $this->database->connection()->prepare($query);
 
@@ -59,13 +59,13 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $result = $statement->fetchAll();
         if (sizeof($result)) {
             return new User (
-                $result[0],
-                $result[1],
-                $result[2],
-                $result[3],
-                $result[4],
-                $result[5],
-                $result[6]
+                $result[0]['id'],
+                $result[0]['email'],
+                $result[0]['password'],
+                $result[0]['birthday'],
+                $result[0]['created_at'],
+                $result[0]['updated_at'],
+                $result[0]['activated']
             );
         }
         return NULL;
