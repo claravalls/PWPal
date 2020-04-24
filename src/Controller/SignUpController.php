@@ -9,6 +9,9 @@ use DateTime;
 use SallePW\SlimApp\Model\User;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
 final class SignUpController
 {
@@ -39,29 +42,37 @@ final class SignUpController
 
         $messages = $this->container->get('flash')->getMessages();
 
+        $email = $_POST['email'];
         $notifications = $messages['notifications'] ?? [];
         $errors = $this->isValid($data['email'], $data['password'], $data['birthday']);
         if(empty($errors))
         {
+
+            $password = md5($data['password']);
             $user = new User(
                 $data['email'] ?? '',
-                $data['password'] ?? '',
+                $password ?? '',
                 $data['phone'] ?? '',
                 new DateTime(),
                 new DateTime(),
                 new DateTime()
             );
-            header("Location: ./sign-in");
+            $this->sendEmail($data['email']);
+            //header("Location: ./sign-in");
         }
 
         return $this->container->get('view')->render(
             $response,
             'signup.twig',
             [
-                'errors' => $errors
+                'errors' => $errors,
+                'email' => $data['email'],
+                'password' => $data['password'],
+                'birthday' => $data['birthday'],
+                'phone' => $data['phone']
             ]
         );
-        
+
     }
 
     function isValid(?string $email, ?string $password, ?string $birthday)
@@ -93,11 +104,12 @@ final class SignUpController
 
         $domain = explode("@", $email, 2);
 
-        if($domain[1] == "salle.url.edu")
-        {
+        //if($domain[1] == "salle.url.edu")
+        //{
             return true;
-        }
-        return false;
+        //}
+
+        //return false;
 
     }
 
@@ -111,6 +123,40 @@ final class SignUpController
             return false;
         }
         return true;
+    }
+
+    public function sendEmail($email)
+    {
+        // Instantiation and passing `true` enables exceptions
+        $mail = new PHPMailer(true);
+        $token = md5(rand(0, 1000), true);
+        try {
+            //Server settings
+            $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
+            $mail->isSMTP();                                            // Send using SMTP
+            $mail->Host       = 'smtp.mailtrap.io';                    // Set the SMTP server to send through
+            $mail->Username = '48693ab62ec89e';
+            $mail->Password = 'bb3226c89d3f90';
+            $mail->Port = 2525;                                 // TCP port to connect to
+            $mail->SMTPAuth = true;
+
+            //Recipients
+            $mail->setFrom($email, 'Mailer');
+            $mail->addReplyTo($email, 'Information');
+            $mail->addCC($email);
+            $mail->addBCC($email);
+
+            // Content
+            $mail->isHTML(true);                                  // Set email format to HTML
+            $mail->Subject = 'Activation Email';
+            $mail->Body    = 'For activation click the link <b>pwpay.test/activate?token='.$token.'</b>';
+            $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+            $mail->send();
+            $errors[] =  'Message has been sent';
+        }catch (Exception $e) {
+            $errors[] =  "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        }
     }
 
 }

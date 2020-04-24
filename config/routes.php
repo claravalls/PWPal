@@ -30,6 +30,11 @@ $app->get(
     SignUpController::class . ":showSignUp"
 )->setName('sign-up');
 
+/*$app->get(
+    '/activate?token=.$token',
+    SignUpController::class . ":showSignUp"
+)->setName('accepted');*/
+
 $app->post(
     '/sign-up',
     SignUpController::class . ":validateUser"
