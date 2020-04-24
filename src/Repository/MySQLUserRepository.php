@@ -22,8 +22,8 @@ final class MySQLUserRepository implements UserRepository
     public function save(User $user): void
     {
         $query = <<<'QUERY'
-        INSERT INTO user(email, password, telefon, birthday, created_at, updated_at)
-        VALUES(:email, :password, :telegon, :birthday, :created_at, :updated_at)
+        INSERT INTO user(email, password, telefon, birthday, created_at, updated_at, activated)
+        VALUES(:email, :password, :telegon, :birthday, :created_at, :updated_at, 0)
 QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $statement = $this->database->connection()->prepare($query);
 
@@ -44,37 +44,28 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $statement->execute();
     }
 
-    public function search(User $user)
+    public function search(String $email): User
     {
         $query = <<<'QUERY'
         SELECT * FROM USER WHERE email=?
 QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $statement = $this->database->connection()->prepare($query);
 
-        $email = $user->email();
-
         $statement->bindParam('email', $email, PDO::PARAM_STR);
         $statement->execute();
 
         $result = $statement->fetchAll();
-
-        $password = $user->password();
-
         if (sizeof($result)) {
-            //agafem l'id de l'usuari
-            $id = $result[0]['id'];
-
-            if (strcmp($result[0]['password'], $password)) {
-                return false;
-            } else {
-                //$_SESSION['id'] = $id;
-                return true;
-            }
-        } else {
-            return false;
+            return new User (
+                $result[0],
+                $result[1],
+                $result[2],
+                $result[3],
+                $result[4],
+                $result[5],
+                $result[6]
+            );
         }
-
-
-
+        return NULL;
     }
 }

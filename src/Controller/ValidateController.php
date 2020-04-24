@@ -11,6 +11,7 @@ use Slim\Psr7\Response;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+use function DI\get;
 
 class ValidateController
 {
@@ -61,15 +62,20 @@ class ValidateController
             $errors = $this->isValid($data['email'], $data['password'], NULL, NULL);
             if(empty($errors))
             {
-                //COMPROVAR A LA DATABASE
-                header("Location: ./");
+                $user = $this->container->get('user_repository')->search($data['email']);
+                if($this->checkPassword($user['password'], $data['password'])){
+                    header("Location: ./");
+                }
+                $errors = sprintf("Incorrect credentials");
             }
 
             return $this->container->get('view')->render(
                 $response,
                 'signin.twig',
                 [
-                    'errors' => $errors
+                    'errors' => $errors,
+                    'email' => $data['email'],
+                    'password' => $data['password']
                 ]
             );
         }
@@ -181,5 +187,9 @@ class ValidateController
         }catch (Exception $e) {
             $errors[] =  "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }
+    }
+
+    function checkPassword (String $hash_pswd, String $pswd){
+        return md5($hash_pswd) == $pswd;
     }
 }

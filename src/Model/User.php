@@ -15,6 +15,7 @@ final class User
     private DateTime $birthday;
     private DateTime $createdAt;
     private DateTime $updatedAt;
+    private bool $active;
 
     public function __construct(
         string $email,
@@ -22,7 +23,8 @@ final class User
         string $telefon,
         DateTime $birthday,
         DateTime $createdAt,
-        DateTime $updatedAt
+        DateTime $updatedAt,
+        bool $active
     ) {
         $this->email = $email;
         $this->password = $password;
@@ -30,6 +32,7 @@ final class User
         $this->birthday = $birthday;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
+        $this->active = $active;
     }
 
     public function id(): int
