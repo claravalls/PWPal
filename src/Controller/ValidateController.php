@@ -35,21 +35,27 @@ class ValidateController
             $errors = $this->isValid($data['email'], $data['password'], $data['birthday'], $data['phone']);
             if(empty($errors))
             {
-                $password = md5($data['password']);
-                $user = new User(
-                    $data['email'] ?? '',
-                    $password ?? '',
-                    $data['phone'] ?? '',
-                    $data['birthday'],
-                    new DateTime(),
-                    new DateTime(),
-                    false
-                );
+                $userComprovar = $this->container->get('user_repository')->search($data['email']);
+                if($userComprovar == NULL) {
+                    $password = md5($data['password']);
+                    $dateBirthday = DateTime::createFromFormat('Y-m-d', $data['birthday']);
+                    $user = new User(
+                        $data['email'] ?? '',
+                        $password ?? '',
+                        $data['phone'] ?? '',
+                        $dateBirthday,
+                        new DateTime(),
+                        new DateTime(),
+                        false
+                    );
 
-                $this->sendEmail($data['email']);
-                $this->container->get('user_repository')->save($user);
+                    $this->sendEmail($data['email']);
+                    $this->container->get('user_repository')->save($user);
 
-                header("Location: ./sign-in");
+                    header("Location: ./sign-in");
+                }else{
+                    $errors[] = sprintf('This email is already in use.');
+                }
             }
 
             return $this->container->get('view')->render(
