@@ -35,22 +35,28 @@ class ValidateController
             $errors = $this->isValid($data['email'], $data['password'], $data['birthday'], $data['phone']);
             if(empty($errors))
             {
-                $password = md5($data['password']);
-                $birthday = DateTime::createFromFormat('Y-m-d', $data['birthday']);
-                $user = new User(
-                    $data['email'] ?? '',
-                    $password ?? '',
-                    $data['phone'] ?? '',
-                    $birthday,
-                    new DateTime(),
-                    new DateTime(),
-                    false
-                );
+                $userComprovar = $this->container->get('user_repository')->search($data['email']);
+                if($userComprovar == NULL) {
 
-                $this->sendEmail($data['email']);
-                $this->container->get('user_repository')->save($user);
+                    $password = md5($data['password']);
+                    $dateBirthday = DateTime::createFromFormat('Y-m-d', $data['birthday']);
+                    $user = new User(
+                        $data['email'] ?? '',
+                        $password ?? '',
+                        $data['phone'] ?? '',
+                        $dateBirthday,
+                        new DateTime(),
+                        new DateTime(),
+                        false
+                    );
 
-                header("Location: ./sign-in");
+                    $this->sendEmail($data['email']);
+                    $this->container->get('user_repository')->save($user);
+
+                    header("Location: ./sign-in");
+                }else{
+                    $errors[] = sprintf('This email is already in use.');
+                }
             }
 
             return $this->container->get('view')->render(
@@ -187,7 +193,8 @@ class ValidateController
             // Content
             $mail->isHTML(true);                                  // Set email format to HTML
             $mail->Subject = 'Activation Email';
-            $mail->Body    = 'For activation click the link <a href="pwpay.test/activate?token='.$token.'"</a>';
+            $url = 'pwpay.test/activate?token='.$token.'';
+            $mail->Body    = 'For activation click the link <a href='.$url.'></a>';
             $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
             $mail->send();
