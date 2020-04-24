@@ -1,6 +1,7 @@
 <?php
 
 use DI\Container;
+use SallePW\SlimApp\Model\User;
 use Slim\Views\Twig;
 use Slim\Flash\Messages;
 use SallePW\SlimApp\Repository\MySQLUserRepository;
@@ -36,3 +37,17 @@ $container->set('db', function () {
 $container->set('user_repository', function (ContainerInterface $container) {
     return new MySQLUserRepository($container->get('db'));
 });
+
+/*
+ * CREATE TABLE `user` (
+        `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+        `email` VARCHAR(255) NOT NULL DEFAULT '',
+        `password` VARCHAR(255) NOT NULL DEFAULT '',
+        `telefon` VARCHAR(255), `birthday` DATETIME NOT NULL,
+        `created_at` DATETIME NOT NULL,
+        `updated_at` DATETIME NOT NULL,
+        `photo` VARCHAR(255),
+        `activated` BOOLEAN NOT NULL,
+        PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ */

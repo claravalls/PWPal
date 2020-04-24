@@ -1,5 +1,6 @@
 <?php
 
+use SallePW\SlimApp\Controller\DashBoardController;
 use \SallePW\SlimApp\Controller\HomeController;
 use SallePW\SlimApp\Controller\PostSignInController;
 use SallePW\SlimApp\Controller\SignInController;
@@ -42,9 +43,10 @@ $app->post(
 )->setName('create_user');
 
 $app->get(
-    '/flash',
-    FlashController::class . ":addMessage"
-)->setName('flash');
+    '/account/summary',
+    DashBoardController::class . ":showDashboard"
+)->setName('dashboard');
+
 
 /*
 $app->get(

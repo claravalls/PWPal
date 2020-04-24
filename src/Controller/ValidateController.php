@@ -14,7 +14,7 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 use function DI\get;
 
-class ValidateController
+final class ValidateController
 {
     private ContainerInterface $container;
 
@@ -36,7 +36,7 @@ class ValidateController
             if(empty($errors))
             {
                 $userComprovar = $this->container->get('user_repository')->search($data['email']);
-                if($userComprovar == NULL) {
+                if($userComprovar->id() < 0) {
 
                     $password = md5($data['password']);
                     $dateBirthday = DateTime::createFromFormat('Y-m-d', $data['birthday']);
@@ -47,6 +47,7 @@ class ValidateController
                         $dateBirthday,
                         new DateTime(),
                         new DateTime(),
+                        DashBoardController::DEFAULT_PICTURE,
                         false
                     );
 
@@ -71,14 +72,16 @@ class ValidateController
                 ]
             );
         }
-        else if ($type == "in"){
+        else if ($type == "in")
+        {
             $errors = $this->isValid($data['email'], $data['password'], NULL, NULL);
             if(empty($errors))
             {
                 $user = $this->container->get('user_repository')->search($data['email']);
+
                 if($user->id() > 0 && $user->isActive() && $this->checkPassword($user->password(), $data['password'])){
-                    // TODO: redirigir l'usuari al perfil
-                    header("Location: ./");
+                    $_SESSION['user'] = $user;
+                    header("Location: ./account/summary");
                 }
                 $errors[] = "Incorrect credentials";
             }
@@ -93,6 +96,7 @@ class ValidateController
                 ]
             );
         }
+        return $response->withStatus(400);
     }
 
     function isValid(?string $email, ?string $password, ?string $birthday, ?string $phone)

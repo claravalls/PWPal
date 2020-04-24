@@ -15,6 +15,7 @@ final class User
     private DateTime $birthday;
     private DateTime $createdAt;
     private DateTime $updatedAt;
+    private string $photo;
     private bool $active;
 
     public function __construct(
@@ -24,6 +25,7 @@ final class User
         DateTime $birthday,
         DateTime $createdAt,
         DateTime $updatedAt,
+        string $photo,
         bool $active
     ) {
         $this->email = $email;
@@ -32,6 +34,7 @@ final class User
         $this->birthday = $birthday;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
+        $this->photo = $photo;
         $this->active = $active;
     }
 
@@ -79,5 +82,9 @@ final class User
     public function isActive(): bool
     {
         return $this->active;
+    }
+    public function photo(): string
+    {
+        return $this->photo;
     }
 }
