@@ -70,4 +70,15 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         }
         return NULL;
     }
+
+    public function activateUser(String $token) : User{
+        $query = <<<'QUERY'
+        UPDATE USER set activated = 'true' WHERE token=:token
+QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
+        $statement = $this->database->connection()->prepare($query);
+
+        $statement->bindParam('token', $token, PDO::PARAM_STR);
+        $statement->execute();
+
+    }
 }

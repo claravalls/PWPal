@@ -1,0 +1,20 @@
+{% extends "base.twig" %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+    <h1>{% block header %}{% endblock %}</h1>
+
+    <form {% block form_header %}{% endblock %}>
+        {% if errors is not empty %}
+            <ol>
+                {% for error in errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ol>
+        {% endif %}
+
+        {% block other %}{% endblock %}
+    </form>
+
+{% endblock %}
