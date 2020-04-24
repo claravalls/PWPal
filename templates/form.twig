@@ -9,6 +9,7 @@
         <input type="email" name="email" value="" placeholder="Enter your email" required>
         <input type="password" name="password" value="" placeholder="Enter your password" required>
         <input type="hidden" name="action" value={% block type %}{% endblock %}>
+        {% block other %}{% endblock %}
         <button type="submit">{% block button %}{% endblock %}</button>
     </form>
 

@@ -22,7 +22,6 @@ final class FlashController
             'Flash messages in action!'
         );
 
-
         return $response->withHeader('Location', '/')->withStatus(302);
     }
 }
