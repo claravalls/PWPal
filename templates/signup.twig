@@ -1,0 +1,22 @@
+{% extends "form.twig" %}
+
+{% block header %}Sign Up{% endblock %}
+
+{% block form_header %}action="./sign-up" method="POST" accept-charset="utf-8"{% endblock %}
+
+{% block other %}
+
+<input type="date" name="birthday" value="" required>
+<input type="tel" id="phone" name="phone" placeholder="+34" pattern="[0-9]{3}[0-9]{3}[0-9]{3}">
+
+    {% if errors is not empty %}
+        <ol>
+            {% for error in errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ol>
+    {% endif %}
+
+{% endblock %}
+{% block button %}Sign Up{% endblock %}
+

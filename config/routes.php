@@ -3,6 +3,7 @@
 use \SallePW\SlimApp\Controller\HomeController;
 use SallePW\SlimApp\Controller\PostSignInController;
 use SallePW\SlimApp\Controller\SignInController;
+use SallePW\SlimApp\Controller\SignUpController;
 use \SallePW\SlimApp\Middleware\StartSessionMiddleware;
 
 use \SallePW\SlimApp\Controller\FlashController;
@@ -24,6 +25,21 @@ $app->post(
     PostSignInController::class . ":signInUser"
 )->setName('create_user');
 
+$app->get(
+    '/sign-up',
+    SignUpController::class . ":showSignUp"
+)->setName('sign-up');
+
+$app->post(
+    '/sign-up',
+    SignUpController::class . ":validateUser"
+)->setName('create_user');
+
+$app->get(
+    '/flash',
+    FlashController::class . ":addMessage"
+)->setName('flash');
+
 /*
 $app->get(
     '/visits',
@@ -35,10 +51,7 @@ $app->get(
     CookieMonsterController::class . ":showAdvice"
 )->setName('cookies');
 
-$app->get(
-    '/flash',
-    FlashController::class . ":addMessage"
-)->setName('flash');
+
 
 $app->post(
     '/users',
