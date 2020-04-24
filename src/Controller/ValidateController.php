@@ -40,6 +40,7 @@ final class ValidateController
 
                     $password = md5($data['password']);
                     $dateBirthday = DateTime::createFromFormat('Y-m-d', $data['birthday']);
+                    $token = md5(rand(0, 1000));
                     $user = new User(
                         $data['email'] ?? '',
                         $password ?? '',
@@ -51,7 +52,7 @@ final class ValidateController
                         false
                     );
 
-                    $this->sendEmail($data['email']);
+                    $this->sendEmail($data['email'], $token);
                     $this->container->get('user_repository')->save($user);
 
                     header("Location: ./sign-in");
@@ -97,6 +98,22 @@ final class ValidateController
             );
         }
         return $response->withStatus(400);
+    }
+
+    public function emailActivation(Request $request, Response $response): Response
+    {
+        if(!empty($_GET["token"])) {
+            $errors[] = sprintf('The email %s is not valid', $_GET["token"]);
+            //$this->container->get('user_repository')->activateUser($_GET["token"]);
+        }
+
+        return $this->container->get('view')->render(
+            $response,
+            'validate.twig',
+            [
+                'errors' => $errors,
+            ]
+        );
     }
 
     function isValid(?string $email, ?string $password, ?string $birthday, ?string $phone)
@@ -173,11 +190,11 @@ final class ValidateController
         }
     }
 
-    public function sendEmail($email)
+    public function sendEmail($email, $token)
     {
         // Instantiation and passing `true` enables exceptions
         $mail = new PHPMailer(true);
-        $token = md5(rand(0, 1000));
+
         try {
             //Server settings
             //$mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
@@ -197,7 +214,7 @@ final class ValidateController
             // Content
             $mail->isHTML(true);                                  // Set email format to HTML
             $mail->Subject = 'Activation Email';
-            $url = 'pwpay.test/activate?token='.$token.'';
+            $url = 'http://pwpay.test/activate?token='.$token.'';
             $mail->Body    = 'For activation click the link <a href='.$url.'></a>';
             $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 

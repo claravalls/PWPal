@@ -9,6 +9,7 @@ use SallePW\SlimApp\Controller\ValidateController;
 use \SallePW\SlimApp\Middleware\StartSessionMiddleware;
 
 use \SallePW\SlimApp\Controller\FlashController;
+use SallePW\SlimApp\Model\User;
 
 $app->add(StartSessionMiddleware::class);
 
@@ -32,10 +33,10 @@ $app->get(
     SignUpController::class . ":showSignUp"
 )->setName('sign-up');
 
-/*$app->get(
-    '/activate?token=.$token',
-    SignUpController::class . ":showSignUp"
-)->setName('accepted');*/
+$app->get(
+    '/activate',
+    ValidateController::class . ":emailActivation"
+)->setName('accepted');
 
 $app->post(
     '/sign-up',
