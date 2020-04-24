@@ -23,7 +23,7 @@ final class MySQLUserRepository implements UserRepository
     {
         $query = <<<'QUERY'
         INSERT INTO user(email, password, telefon, birthday, created_at, updated_at, activated)
-        VALUES(:email, :password, :telegon, :birthday, :created_at, :updated_at, 0)
+        VALUES(:email, :password, :telefon, :birthday, :created_at, :updated_at, :activated)
 QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $statement = $this->database->connection()->prepare($query);
 
@@ -33,6 +33,7 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $birthday = $user->birthday()->format(self::DATE_FORMAT);
         $createdAt = $user->createdAt()->format(self::DATE_FORMAT);
         $updatedAt = $user->updatedAt()->format(self::DATE_FORMAT);
+        $activated = 0;
 
         $statement->bindParam('email', $email, PDO::PARAM_STR);
         $statement->bindParam('password', $password, PDO::PARAM_STR);
@@ -40,6 +41,7 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $statement->bindParam('birthday', $birthday, PDO::PARAM_STR);
         $statement->bindParam('created_at', $createdAt, PDO::PARAM_STR);
         $statement->bindParam('updated_at', $updatedAt, PDO::PARAM_STR);
+        $statement->bindParam('activated', $activated, PDO::PARAM_STR);
 
         $statement->execute();
     }
@@ -47,7 +49,7 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
     public function search(String $email): User
     {
         $query = <<<'QUERY'
-        SELECT * FROM USER WHERE email=?
+        SELECT * FROM USER WHERE email=:email
 QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $statement = $this->database->connection()->prepare($query);
 
