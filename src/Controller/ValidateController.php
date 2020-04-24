@@ -6,6 +6,7 @@ namespace SallePW\SlimApp\Controller;
 use DateTime;
 use Psr\Container\ContainerInterface;
 use SallePW\SlimApp\Model\User;
+use SallePW\SlimApp\Repository\MySQLUserRepository;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -34,15 +35,20 @@ class ValidateController
             $errors = $this->isValid($data['email'], $data['password'], $data['birthday'], $data['phone']);
             if(empty($errors))
             {
+                $password = md5($data['password']);
                 $user = new User(
                     $data['email'] ?? '',
-                    $data['password'] ?? '',
+                    $password ?? '',
                     $data['phone'] ?? '',
                     new DateTime(),
                     new DateTime(),
-                    new DateTime()
+                    new DateTime(),
+                    false
                 );
+
                 $this->sendEmail($data['email']);
+                $this->container->get('user_repository')->save($user);
+
                 header("Location: ./sign-in");
             }
 
