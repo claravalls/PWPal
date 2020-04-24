@@ -1,11 +1,22 @@
 {% extends "form.twig" %}
 
+{% block title %}Sign in{% endblock %}
+
 {% block header %}Sign in{% endblock %}
 
 {% block form_header %}action="./sign-in" method="POST" accept-charset="utf-8"{% endblock %}
+{% block type %}in{% endblock %}
 
 {% block other %}
+    {% if errors is not empty %}
+        <ol>
+            {% for error in errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ol>
+    {% endif %}
 {% endblock %}
+
 {% block button %}Sign in{% endblock %}
 
 

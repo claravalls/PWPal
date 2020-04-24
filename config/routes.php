@@ -4,6 +4,7 @@ use \SallePW\SlimApp\Controller\HomeController;
 use SallePW\SlimApp\Controller\PostSignInController;
 use SallePW\SlimApp\Controller\SignInController;
 use SallePW\SlimApp\Controller\SignUpController;
+use SallePW\SlimApp\Controller\ValidateController;
 use \SallePW\SlimApp\Middleware\StartSessionMiddleware;
 
 use \SallePW\SlimApp\Controller\FlashController;
@@ -22,7 +23,7 @@ $app->get(
 
 $app->post(
     '/sign-in',
-    PostSignInController::class . ":signInUser"
+    ValidateController::class . ":validateUser"
 )->setName('create_user');
 
 $app->get(
@@ -37,7 +38,7 @@ $app->get(
 
 $app->post(
     '/sign-up',
-    SignUpController::class . ":validateUser"
+    ValidateController::class . ":validateUser"
 )->setName('create_user');
 
 $app->get(
