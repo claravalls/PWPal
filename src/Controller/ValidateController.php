@@ -36,11 +36,12 @@ class ValidateController
             if(empty($errors))
             {
                 $password = md5($data['password']);
+                $birthday = DateTime::createFromFormat('Y-m-d', $data['birthday']);
                 $user = new User(
                     $data['email'] ?? '',
                     $password ?? '',
                     $data['phone'] ?? '',
-                    $data['birthday'],
+                    $birthday,
                     new DateTime(),
                     new DateTime(),
                     false
@@ -69,10 +70,11 @@ class ValidateController
             if(empty($errors))
             {
                 $user = $this->container->get('user_repository')->search($data['email']);
-                if($this->checkPassword($user['password'], $data['password'])){
+                if($user->id() > 0 && $user->isActive() && $this->checkPassword($user->password(), $data['password'])){
+                    // TODO: redirigir l'usuari al perfil
                     header("Location: ./");
                 }
-                $errors = sprintf("Incorrect credentials");
+                $errors[] = "Incorrect credentials";
             }
 
             return $this->container->get('view')->render(
@@ -196,6 +198,6 @@ class ValidateController
     }
 
     function checkPassword (String $hash_pswd, String $pswd){
-        return md5($hash_pswd) == $pswd;
+        return md5($pswd) == $hash_pswd;
     }
 }
