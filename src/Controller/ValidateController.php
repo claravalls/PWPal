@@ -40,7 +40,7 @@ class ValidateController
                     $data['email'] ?? '',
                     $password ?? '',
                     $data['phone'] ?? '',
-                    new DateTime(),
+                    $data['birthday'],
                     new DateTime(),
                     new DateTime(),
                     false
@@ -168,7 +168,7 @@ class ValidateController
         $token = md5(rand(0, 1000));
         try {
             //Server settings
-            $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
+            //$mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
             $mail->isSMTP();                                            // Send using SMTP
             $mail->Host       = 'smtp.mailtrap.io';                    // Set the SMTP server to send through
             $mail->Username = '48693ab62ec89e';
@@ -185,7 +185,7 @@ class ValidateController
             // Content
             $mail->isHTML(true);                                  // Set email format to HTML
             $mail->Subject = 'Activation Email';
-            $mail->Body    = 'For activation click the link <b>pwpay.test/activate?token='.$token.'</b>';
+            $mail->Body    = 'For activation click the link <a href="pwpay.test/activate?token='.$token.'"</a>';
             $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
             $mail->send();
