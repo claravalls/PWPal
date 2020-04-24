@@ -1,13 +1,12 @@
 <?php
 
-
 namespace SallePW\SlimApp\Controller;
 
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-final class SignInController
+final class ProfileController
 {
     private ContainerInterface $container;
 
@@ -16,20 +15,17 @@ final class SignInController
         $this->container = $container;
     }
 
-    public function showSignIn(Request $request, Response $response): Response
+    public function showProfile(Request $request, Response $response):Response
     {
+        if (!isset($_SESSION['user'])){
+
+            header("Location: /sign-in");
+        }
+        $user = $_SESSION['user'];
         return $this->container->get('view')->render(
             $response,
-            'signin.twig',
+            'profile.twig',
             []
         );
     }
-
-    public function logout(Request $request, Response $response): Response
-    {
-        unset($_SESSION['user']);
-        header("Location: /sign-in");
-        return $response->withStatus(200);
-    }
-
 }

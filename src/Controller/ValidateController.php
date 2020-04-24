@@ -55,7 +55,7 @@ final class ValidateController
                     $this->sendEmail($data['email'], $token);
                     $this->container->get('user_repository')->save($user);
 
-                    header("Location: ./sign-in");
+                    header("Location: /sign-in");
                 }else{
                     $errors[] = sprintf('This email is already in use.');
                 }
@@ -82,7 +82,7 @@ final class ValidateController
 
                 if($user->id() > 0 && $user->isActive() && $this->checkPassword($user->password(), $data['password'])){
                     $_SESSION['user'] = $user;
-                    header("Location: ./account/summary");
+                    header("Location: /account/summary");
                 }
                 $errors[] = "Incorrect credentials";
             }

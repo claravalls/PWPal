@@ -3,7 +3,6 @@
 
 namespace SallePW\SlimApp\Controller;
 
-
 use Psr\Container\ContainerInterface;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
@@ -23,7 +22,7 @@ final class DashBoardController
     {
         if (!isset($_SESSION['user'])){
 
-            header("Location: ./");
+            header("Location: /sign-in");
         }
         $user = $_SESSION['user'];
         return $this->container->get('view')->render(

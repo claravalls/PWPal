@@ -4,6 +4,11 @@
 
 {% block content %}
     <h1>Dashboard</h1>
-
-    <img src="{{ photo }}" alt="Profile picture" height="170" width="170">
+    <form action="/logout" method="POST" accept-charset="utf-8">
+        <button type="submit">Log out</button>
+    </form>
+    <br>
+    <form action="/profile" method="GET" accept-charset="utf-8">
+        <input type="image" src="{{ photo }}" alt="Profile picture" height="170" width="170">
+    </form>
 {% endblock %}

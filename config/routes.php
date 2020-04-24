@@ -3,6 +3,7 @@
 use SallePW\SlimApp\Controller\DashBoardController;
 use \SallePW\SlimApp\Controller\HomeController;
 use SallePW\SlimApp\Controller\PostSignInController;
+use SallePW\SlimApp\Controller\ProfileController;
 use SallePW\SlimApp\Controller\SignInController;
 use SallePW\SlimApp\Controller\SignUpController;
 use SallePW\SlimApp\Controller\ValidateController;
@@ -48,6 +49,16 @@ $app->get(
     DashBoardController::class . ":showDashboard"
 )->setName('dashboard');
 
+$app->post(
+    '/logout',
+    SignInController::class . ":logout"
+)->setName('logout');
+
+$app->get(
+    '/profile',
+    ProfileController::class . ":showProfile"
+)->setName('profile');
+
 
 /*
 $app->get(
@@ -59,8 +70,6 @@ $app->get(
     '/cookies',
     CookieMonsterController::class . ":showAdvice"
 )->setName('cookies');
-
-
 
 $app->post(
     '/users',
