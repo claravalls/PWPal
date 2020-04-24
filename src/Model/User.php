@@ -75,4 +75,9 @@ final class User
     {
         return $this->updatedAt;
     }
+
+    public function isActive(): bool
+    {
+        return $this->active;
+    }
 }
