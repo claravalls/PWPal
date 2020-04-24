@@ -43,4 +43,38 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
 
         $statement->execute();
     }
+
+    public function search(User $user)
+    {
+        $query = <<<'QUERY'
+        SELECT * FROM USER WHERE email=?
+QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
+        $statement = $this->database->connection()->prepare($query);
+
+        $email = $user->email();
+
+        $statement->bindParam('email', $email, PDO::PARAM_STR);
+        $statement->execute();
+
+        $result = $statement->fetchAll();
+
+        $password = $user->password();
+
+        if (sizeof($result)) {
+            //agafem l'id de l'usuari
+            $id = $result[0]['id'];
+
+            if (strcmp($result[0]['password'], $password)) {
+                return false;
+            } else {
+                //$_SESSION['id'] = $id;
+                return true;
+            }
+        } else {
+            return false;
+        }
+
+
+
+    }
 }
