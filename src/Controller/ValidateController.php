@@ -37,6 +37,7 @@ class ValidateController
             {
                 $userComprovar = $this->container->get('user_repository')->search($data['email']);
                 if($userComprovar == NULL) {
+
                     $password = md5($data['password']);
                     $dateBirthday = DateTime::createFromFormat('Y-m-d', $data['birthday']);
                     $user = new User(
@@ -191,7 +192,8 @@ class ValidateController
             // Content
             $mail->isHTML(true);                                  // Set email format to HTML
             $mail->Subject = 'Activation Email';
-            $mail->Body    = 'For activation click the link <a href="pwpay.test/activate?token='.$token.'"</a>';
+            $url = 'pwpay.test/activate?token='.$token.'';
+            $mail->Body    = 'For activation click the link <a href='.$url.'></a>';
             $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
             $mail->send();
