@@ -68,13 +68,12 @@ class ValidateController
             if(empty($errors))
             {
                 //COMPROVAR A LA DATABASE
-
+                header("Location: ./");
             }
-            header("Location: ./");
 
             return $this->container->get('view')->render(
                 $response,
-                'signIN.twig',
+                'signin.twig',
                 [
                     'errors' => $errors
                 ]
