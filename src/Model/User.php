@@ -16,6 +16,8 @@ final class User
     private DateTime $createdAt;
     private DateTime $updatedAt;
     private string $photo;
+    private int $wallet;
+    private string $token;
     private bool $active;
 
     public function __construct(
@@ -26,6 +28,8 @@ final class User
         DateTime $createdAt,
         DateTime $updatedAt,
         string $photo,
+        int $wallet,
+        string $token,
         bool $active
     ) {
         $this->email = $email;
@@ -35,6 +39,8 @@ final class User
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
         $this->photo = $photo;
+        $this->wallet = $wallet;
+        $this->token = $token;
         $this->active = $active;
     }
 
@@ -87,4 +93,41 @@ final class User
     {
         return $this->photo;
     }
+
+    public function token(): string
+    {
+        return $this->token;
+    }
+
+    public function wallet(): int
+    {
+        return $this->wallet;
+    }
 }
+
+/*
+ * CREATE TABLE `user` (
+        `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+        `email` VARCHAR(255) NOT NULL DEFAULT '',
+        `password` VARCHAR(255) NOT NULL DEFAULT '',
+        `telefon` VARCHAR(255), `birthday` DATETIME NOT NULL,
+        `created_at` DATETIME NOT NULL,
+        `updated_at` DATETIME NOT NULL,
+        `photo` VARCHAR(255),
+        `token` VARCHAR(255),
+        `wallet` INT(11) UNSIGNED NOT NULL,
+        `activated` BOOLEAN NOT NULL,
+        PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `bank` (
+        `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+        `user_id` INT(11) UNSIGNED NOT NULL,
+        `owner_name` VARCHAR(255) NOT NULL DEFAULT '',
+        `IBAN` VARCHAR(255) NOT NULL DEFAULT '',
+        `money` INT(11),
+        PRIMARY KEY (`id`),
+        CONSTRAINT `bank_ibfk_1` FOREIGN KEY (`id`)
+        REFERENCES `user` (`id`) ON DELETE CASCADE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ */

@@ -24,8 +24,8 @@ final class MySQLUserRepository implements UserRepository
     public function save(User $user): void
     {
         $query = <<<'QUERY'
-        INSERT INTO user(email, password, telefon, birthday, created_at, updated_at, photo, activated)
-        VALUES(:email, :password, :telefon, :birthday, :created_at, :updated_at, :photo, :activated)
+        INSERT INTO user(email, password, telefon, birthday, created_at, updated_at, photo, wallet, token, activated)
+        VALUES(:email, :password, :telefon, :birthday, :created_at, :updated_at, :photo, :wallet, :token, :activated)
 QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $statement = $this->database->connection()->prepare($query);
 
@@ -37,6 +37,8 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $updatedAt = $user->updatedAt()->format(self::DATE_FORMAT);
         $activated = 0;
         $photo = DashBoardController::DEFAULT_PICTURE;
+        $token = $user->token();
+        $wallet = $user->wallet();
 
         $statement->bindParam('email', $email, PDO::PARAM_STR);
         $statement->bindParam('password', $password, PDO::PARAM_STR);
@@ -46,18 +48,30 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $statement->bindParam('updated_at', $updatedAt, PDO::PARAM_STR);
         $statement->bindParam('activated', $activated, PDO::PARAM_STR);
         $statement->bindParam('photo', $photo, PDO::PARAM_STR);
+        $statement->bindParam('token', $token, PDO::PARAM_STR);
+        $statement->bindParam('wallet', $wallet, PDO::PARAM_STR);
 
         $statement->execute();
     }
 
-    public function search(String $email): User
+    public function search(String $param, String $value): User
     {
-        $query = <<<'QUERY'
+        if ($value == "email") {
+            $query = <<<'QUERY'
         SELECT * FROM user WHERE email=?
 QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
+        } else if ($value == "token") {
+            $query = <<<'QUERY'
+        SELECT * FROM user WHERE token=?
+QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
+        } else {
+            $query = <<<'QUERY'
+        SELECT * FROM user
+QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
+        }
         $statement = $this->database->connection()->prepare($query);
 
-        $statement->bindParam(1, $email, PDO::PARAM_STR);
+        $statement->bindParam(1, $param, PDO::PARAM_STR);
         $statement->execute();
 
         $result = $statement->fetchAll();
@@ -74,6 +88,8 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
                 $created,
                 $updated,
                 DashBoardController::DEFAULT_PICTURE,
+                (int)$result[0]['wallet'],
+                $result[0]['token'],
                 (bool)$result[0]['activated']
             );
             $user->setId((int)$result[0]['id']);
@@ -87,6 +103,8 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
             new DateTime(),
             new DateTime(),
             "",
+            0,
+            "",
             false
         );
         $user->setId(-1);
@@ -94,14 +112,14 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
 
     }
 
-    public function activateUser(String $token) : void{
+    public function activateUser(String $token): void
+    {
         $query = <<<'QUERY'
-        UPDATE user set activated = 1 WHERE token=:token
+        UPDATE user set activated = 1, wallet = 20 WHERE token=:token
 QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $statement = $this->database->connection()->prepare($query);
 
         $statement->bindParam('token', $token, PDO::PARAM_STR);
         $statement->execute();
-
     }
 }

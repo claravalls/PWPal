@@ -35,7 +35,7 @@ final class ValidateController
             $errors = $this->isValid($data['email'], $data['password'], $data['birthday'], $data['phone']);
             if(empty($errors))
             {
-                $userComprovar = $this->container->get('user_repository')->search($data['email']);
+                $userComprovar = $this->container->get('user_repository')->search($data['email'], "email");
                 if($userComprovar->id() < 0) {
 
                     $password = md5($data['password']);
@@ -49,6 +49,8 @@ final class ValidateController
                         new DateTime(),
                         new DateTime(),
                         DashBoardController::DEFAULT_PICTURE,
+                        0,
+                        $token,
                         false
                     );
 
@@ -78,7 +80,7 @@ final class ValidateController
             $errors = $this->isValid($data['email'], $data['password'], NULL, NULL);
             if(empty($errors))
             {
-                $user = $this->container->get('user_repository')->search($data['email']);
+                $user = $this->container->get('user_repository')->search($data['email'], "email");
 
                 if($user->id() > 0 && $user->isActive() && $this->checkPassword($user->password(), $data['password'])){
                     $_SESSION['user'] = $user;
@@ -103,8 +105,16 @@ final class ValidateController
     public function emailActivation(Request $request, Response $response): Response
     {
         if(!empty($_GET["token"])) {
-            $errors[] = sprintf('The email is not valid');
-            $this->container->get('user_repository')->activateUser($_GET["token"]);
+            $user = $this->container->get('user_repository')->search($_GET["token"], "token");
+            if($user->id() < 0){
+                $errors[] = sprintf('Unknown token');
+            } else if ($user->isActive()){
+                $errors[] = sprintf('This account is already activated. Sign in to start using PwPay');
+            }
+            else {
+                $this->container->get('user_repository')->activateUser($_GET["token"]);
+                $errors[] = sprintf('Account successfully activated. Sign in to start using PwPay');
+            }
         }
 
         return $this->container->get('view')->render(
@@ -215,7 +225,7 @@ final class ValidateController
             $mail->isHTML(true);                                  // Set email format to HTML
             $mail->Subject = 'Activation Email';
             $url = 'http://pwpay.test/activate?token='.$token.'';
-            $mail->Body    = 'For activation click the link <a href='.$url.'></a>';
+            $mail->Body    = 'For activation click <a href='.$url.'>this</a> link ';
             $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
             $mail->send();

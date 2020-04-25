@@ -3,18 +3,19 @@
 {% block title %}{% endblock %}
 
 {% block content %}
-    <h1>{% block header %}{% endblock %}</h1>
+    <h1>Validation</h1>
 
-    <form {% block form_header %}{% endblock %}>
+    <form action="/sign-in" method="GET" accept-charset="utf-8">
         {% if errors is not empty %}
             <ol>
                 {% for error in errors %}
-                    <li>{{ error }}</li>
+                    <p>{{ error }}</p>
                 {% endfor %}
             </ol>
         {% endif %}
 
         {% block other %}{% endblock %}
+        <button type="submit">Sign in</button>
     </form>
 
 {% endblock %}
