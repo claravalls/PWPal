@@ -94,9 +94,9 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
 
     }
 
-    public function activateUser(String $token) : User{
+    public function activateUser(String $token) : void{
         $query = <<<'QUERY'
-        UPDATE USER set activated = 'true' WHERE token=:token
+        UPDATE user set activated = 1 WHERE token=:token
 QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $statement = $this->database->connection()->prepare($query);
 

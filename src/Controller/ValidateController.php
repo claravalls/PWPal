@@ -103,8 +103,8 @@ final class ValidateController
     public function emailActivation(Request $request, Response $response): Response
     {
         if(!empty($_GET["token"])) {
-            $errors[] = sprintf('The email %s is not valid', $_GET["token"]);
-            //$this->container->get('user_repository')->activateUser($_GET["token"]);
+            $errors[] = sprintf('The email is not valid');
+            $this->container->get('user_repository')->activateUser($_GET["token"]);
         }
 
         return $this->container->get('view')->render(
@@ -197,12 +197,12 @@ final class ValidateController
 
         try {
             //Server settings
-            //$mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
-            $mail->isSMTP();                                            // Send using SMTP
-            $mail->Host       = 'smtp.mailtrap.io';                    // Set the SMTP server to send through
-            $mail->Username = '48693ab62ec89e';
-            $mail->Password = 'bb3226c89d3f90';
-            $mail->Port = 2525;                                 // TCP port to connect to
+            //$mail->SMTPDebug = SMTP::DEBUG_SERVER;                   // Enable verbose debug output
+            $mail->isSMTP();                                           // Send using SMTP
+            $mail->Host     = 'smtp.mailtrap.io';                      // Set the SMTP server to send through
+            $mail->Username = '4a05cc69e6a209'/*'48693ab62ec89e'*/;
+            $mail->Password = '3c48606809e969'/*'bb3226c89d3f90'*/;
+            $mail->Port = 2525;                                        // TCP port to connect to
             $mail->SMTPAuth = true;
 
             //Recipients

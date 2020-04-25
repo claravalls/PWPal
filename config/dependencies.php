@@ -47,6 +47,7 @@ $container->set('user_repository', function (ContainerInterface $container) {
         `created_at` DATETIME NOT NULL,
         `updated_at` DATETIME NOT NULL,
         `photo` VARCHAR(255),
+        `token` VARCHAR(255),
         `activated` BOOLEAN NOT NULL,
         PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
