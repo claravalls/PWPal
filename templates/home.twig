@@ -8,24 +8,20 @@
 
 {% block content %}
     <h1>Welcome to PwPay!</h1>
-    <form action="/sig-in" method="POST" accept-charset="utf-8">
-        <button type="submit">Sign In</button>
-    </form>
-    <form action="/sign-up" method="POST" accept-charset="utf-8">
-        <button type="submit">Sign Up</button>
-    </form>
-
-    {% if notifications is not empty %}
+    
+    {% if user is empty %}
         <ol>
-            {% for notification in notifications %}
-                <li>{{ notification }}</li>
-            {% endfor %}
+            <form action="/sign-in" method="POST" accept-charset="utf-8">
+                <button type="submit">Sign In</button>
+            </form>
+            <form action="/sign-up" method="POST" accept-charset="utf-8">
+                <button type="submit">Sign Up</button>
+            </form>
         </ol>
+    {% else %}
+        <input type="text" src="{{ email }}" alt="User email">
+        <input type="image" src="{{ photo }}" alt="Profile picture" height="170" width="170">
     {% endif %}
 {% endblock %}
 
-{% block footer %}Home page{% endblock %}
-
-
-
-
+{% block footer %}PW II - La Salle URL{% endblock %}
