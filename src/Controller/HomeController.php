@@ -21,12 +21,16 @@ final class HomeController
 
         $notifications = $messages['notifications'] ?? [];
 
+        $user = $_SESSION['user'];
         return $this->container->get('view')->render(
             $response,
             'home.twig',
             [
-                'notifications' => $notifications
-            ]
+                //'notifications' => $notifications,
+                'user' => $user,
+                'photo' => $user->photo(),
+                'mail' => $user->email()
+             ]
         );
     }
 }
