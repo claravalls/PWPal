@@ -2,8 +2,18 @@
 
 {% block title %}Home page{% endblock %}
 
+{% block header %}Home page{% endblock %}
+
+{% block form_header %}action="./" method="GET" accept-charset="utf-8"{% endblock %}
+
 {% block content %}
-    <h1>Hello world!</h1>
+    <h1>Welcome to PwPay!</h1>
+    <form action="/sig-in" method="POST" accept-charset="utf-8">
+        <button type="submit">Sign In</button>
+    </form>
+    <form action="/sign-up" method="POST" accept-charset="utf-8">
+        <button type="submit">Sign Up</button>
+    </form>
 
     {% if notifications is not empty %}
         <ol>
@@ -13,3 +23,9 @@
         </ol>
     {% endif %}
 {% endblock %}
+
+{% block footer %}Home page{% endblock %}
+
+
+
+
