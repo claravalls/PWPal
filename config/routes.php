@@ -59,7 +59,20 @@ $app->get(
     ProfileController::class . ":showProfile"
 )->setName('profile');
 
+$app->post(
+    '/profile',
+    ProfileController::class . ":updateProfile"
+)->setName('profile');
 
+$app->get(
+    '/profile/security',
+    ProfileController::class . ":showProfileSecurity"
+)->setName('profile');
+
+$app->post(
+    '/profile/security',
+    ProfileController::class . ":updateProfileSecurity"
+)->setName('profile');
 /*
 $app->get(
     '/visits',
