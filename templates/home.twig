@@ -11,10 +11,10 @@
     
     {% if user is empty %}
         <ol>
-            <form action="/sign-in" method="POST" accept-charset="utf-8">
+            <form action="/sign-in" method="GET" accept-charset="utf-8">
                 <button type="submit">Sign In</button>
             </form>
-            <form action="/sign-up" method="POST" accept-charset="utf-8">
+            <form action="/sign-up" method="GET" accept-charset="utf-8">
                 <button type="submit">Sign Up</button>
             </form>
         </ol>
