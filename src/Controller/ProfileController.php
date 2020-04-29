@@ -51,11 +51,22 @@ final class ProfileController
 
         $data = $request->getParsedBody();
 
-        $errors = $this->isValid($data['photo'], $data['phone']);
+
         $dateBirthday = DateTime::createFromFormat('Y-m-d', "1997-07-12");
         $date = DateTime::createFromFormat('Y-m-d', "2020-05-12");
         $create = DateTime::createFromFormat('Y-m-d',  "2020-05-12");
         $user = new User("daniel@salle.url.edu", "123345Dmez", "+34612123123", $dateBirthday,  $date,  $create,'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg', 20, "1232312312313", true);
+
+        $errors = $this->isValid($data['photo'], $data['phone']);
+
+        if(empty($errors))
+        {
+            $userComprovar = $this->container->get('user_repository')->search($user->email(), "email");
+            if($userComprovar->id() > 0) {
+                $this->container->get('user_repository')->editProfile($data['phone'], $data['photo'] ?? "", $user->email());
+            }
+        }
+
         return $this->container->get('view')->render(
             $response,
             'profile.twig',
@@ -113,7 +124,6 @@ final class ProfileController
             'security.twig',
             [
                 'errors' => $errors
-
             ]
         );
     }
