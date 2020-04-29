@@ -20,15 +20,13 @@ final class ProfileController
 
     public function showProfile(Request $request, Response $response):Response
     {
-        /*if (!isset($_SESSION['user'])){
+        if (!isset($_SESSION['user'])){
 
             header("Location: /sign-in");
-        }*/
-        //$user = $_SESSION['user'];
-        $dateBirthday = DateTime::createFromFormat('Y-m-d', "1997-07-12");
-        $date = DateTime::createFromFormat('Y-m-d', "2020-05-12");
-        $create = DateTime::createFromFormat('Y-m-d',  "2020-05-12");
-        $user = new User("daniel@salle.url.edu", "123345Dmez", "+34612123123", $dateBirthday,  $date,  $create,'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg', 20, "1232312312313", true);
+        }
+        
+        $user = $_SESSION['user'];
+
         return $this->container->get('view')->render(
             $response,
             'profile.twig',
@@ -43,19 +41,13 @@ final class ProfileController
 
     public function updateProfile(Request $request, Response $response):Response
     {
-        /*if (!isset($_SESSION['user'])){
+        if (!isset($_SESSION['user'])){
 
             header("Location: /sign-in");
-        }*/
-        //$user = $_SESSION['user'];
+        }
+        $user = $_SESSION['user'];
 
         $data = $request->getParsedBody();
-
-
-        $dateBirthday = DateTime::createFromFormat('Y-m-d', "1997-07-12");
-        $date = DateTime::createFromFormat('Y-m-d', "2020-05-12");
-        $create = DateTime::createFromFormat('Y-m-d',  "2020-05-12");
-        $user = new User("daniel@salle.url.edu", "123345Dmez", "+34612123123", $dateBirthday,  $date,  $create,'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg', 20, "1232312312313", true);
 
         $errors = $this->isValid($data['photo'], $data['phone']);
 
@@ -82,11 +74,11 @@ final class ProfileController
 
     public function showProfileSecurity(Request $request, Response $response):Response
     {
-        /*if (!isset($_SESSION['user'])){
+        if (!isset($_SESSION['user'])){
 
             header("Location: /sign-in");
-        }*/
-        //$user = $_SESSION['user'];
+        }
+        $user = $_SESSION['user'];
         return $this->container->get('view')->render(
             $response,
             'security.twig',
@@ -96,17 +88,12 @@ final class ProfileController
 
     public function updateProfileSecurity(Request $request, Response $response):Response
     {
-        /*if (!isset($_SESSION['user'])){
+        if (!isset($_SESSION['user'])){
 
             header("Location: /sign-in");
         }
-        $user = $_SESSION['user'];*/
+        $user = $_SESSION['user'];
         $data = $request->getParsedBody();
-
-        $dateBirthday = DateTime::createFromFormat('Y-m-d', "1997-07-12");
-        $date = DateTime::createFromFormat('Y-m-d', "2020-05-12");
-        $create = DateTime::createFromFormat('Y-m-d',  "2020-05-12");
-        $user = new User("dani@salle.url.edu", md5("1234Dani"), "+34612123123", $dateBirthday,  $date,  $create,'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg', 20, "1232312312313", true);
 
         $errors = $this->isPasswordValid($user->password(), $data['passwordold'],$data['passwordnew'], $data['checkpass']);
 
