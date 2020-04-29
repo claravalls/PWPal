@@ -1,4 +1,3 @@
-
 <?php
 
 use Slim\Factory\AppFactory;
