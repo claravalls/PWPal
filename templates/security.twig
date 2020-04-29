@@ -1,22 +1,22 @@
 {% extends "base.twig" %}
 
-{% block title %}Edit Profile{% endblock %}
 
-{% block header %}Edit Profile{% endblock %}
+{% block title %}Change Password{% endblock %}
 
-{% block form_header %}action="./profile/security" method="POST" accept-charset="utf-8"{% endblock %}
 {% block type %}up{% endblock %}
 
 {% block content %}
 
-    <input type="password" name="passwordold" value="" placeholder="Enter old password" required>
-    <input type="password" name="passwordnew" value="" placeholder="Enter new password" required>
-    <input type="password" name="passwordnew" value="" placeholder="confirm password" required>
-
-
+    <h1>Change Password</h1>
     <form action="/profile/security" method="POST" accept-charset="utf-8">
+        <input type="password" name="passwordold" value="" placeholder="Enter old password" required>
+        <br><br>
+        <input type="password" name="passwordnew" value="" placeholder="Enter new password" required>
+        <br><br>
+        <input type="password" name="checkpass" value="" placeholder="confirm password" required>
+        <br><br>
         <button type="submit">Change Password</button>
-    </form>
+        <br>
     {% if errors is not empty %}
         <ol>
             {% for error in errors %}
@@ -24,6 +24,7 @@
             {% endfor %}
         </ol>
     {% endif %}
+    </form>
     <form action="/profile" method="GET" accept-charset="utf-8">
         <button type="submit">Back to Profile</button>
     </form>

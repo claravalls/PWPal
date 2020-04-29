@@ -122,4 +122,15 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $statement->bindParam('token', $token, PDO::PARAM_STR);
         $statement->execute();
     }
+    public function changePassword(String $password, String $email): void
+    {
+        $query = <<<'QUERY'
+        UPDATE user set password=:password WHERE email=:email
+QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
+        $statement = $this->database->connection()->prepare($query);
+
+        $statement->bindParam('email', $email, PDO::PARAM_STR);
+        $statement->bindParam('password', $password, PDO::PARAM_STR);
+        $statement->execute();
+    }
 }

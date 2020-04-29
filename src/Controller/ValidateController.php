@@ -25,7 +25,6 @@ final class ValidateController
     public function validateUser(Request $request, Response $response): Response
     {
         $data = $request->getParsedBody();
-
         //$messages = $this->container->get('flash')->getMessages();
 
         //$notifications = $messages['notifications'] ?? [];
