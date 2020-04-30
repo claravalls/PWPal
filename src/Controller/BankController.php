@@ -62,9 +62,9 @@ final class BankController
             $response,
             'bankAccount.twig',
             [
-                'errors' => $errors,
+                'bank' => 1,
                 'owner' => $owner,
-                'iban' => $iban
+                'iban' => substr_replace ($iban, '****************', 6),
             ]
         );
     }

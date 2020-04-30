@@ -126,7 +126,7 @@ CREATE TABLE `bank` (
         `owner_name` VARCHAR(255) NOT NULL DEFAULT '',
         `IBAN` VARCHAR(255) NOT NULL DEFAULT '',
         PRIMARY KEY (`id`),
-        CONSTRAINT `bank_ibfk_1` FOREIGN KEY (`id`)
+        CONSTRAINT `bank_ibfk_1` FOREIGN KEY (`user_id`)
         REFERENCES `user` (`id`) ON DELETE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
  */

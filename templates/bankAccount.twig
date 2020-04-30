@@ -9,6 +9,7 @@
         <form action="/account/bank-account" method="POST" accept-charset="utf-8">
             <input type="text" name="owner" value="{{ owner }}" placeholder="Enter the owner name" required>
             <input  type="text" name="iban" placeholder="Enter a valid IBAN" value="{{ iban }}" required>
+
             <br>
             {% if errors is not empty %}
                 {% for error in errors %}
@@ -28,12 +29,15 @@
         </form>
     {% endif %}
     <br>
-    <form action="/" method="GET" accept-charset="utf-8">
-        <button type="submit">Home</button>
-    </form>
+
     {% if load_message is not empty %}
         <p>{{ load_message }}</p>
     {% endif %}
+
+    <br>
+    <form action="/" method="GET" accept-charset="utf-8">
+        <button type="submit">Home</button>
+    </form>
 {% endblock %}
 
 
