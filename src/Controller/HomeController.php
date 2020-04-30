@@ -34,7 +34,7 @@ final class HomeController
                 [
                     'user' => $user,
                     'photo' => $user->photo(),
-                    'mail' => $user->email()
+                    'email' => $user->email()
                 ]
             );
         }
