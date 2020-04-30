@@ -7,6 +7,7 @@ namespace SallePW\SlimApp\Repository;
 use DateTime;
 use PDO;
 use SallePW\SlimApp\Controller\DashBoardController;
+use SallePW\SlimApp\Model\Bank;
 use SallePW\SlimApp\Model\User;
 use SallePW\SlimApp\Model\UserRepository;
 
@@ -123,10 +124,10 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $statement->execute();
     }
 
-     public function findBankAccount (int $id):int
+     public function findBankAccount (int $id):Bank
      {
          $query = <<<'QUERY'
-        SELECT id FROM bank WHERE user_id=?
+        SELECT * FROM bank WHERE user_id=?
 QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
 
          $statement = $this->database->connection()->prepare($query);
@@ -137,10 +138,48 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
          $result = $statement->fetchAll();
 
          if (sizeof($result)) {
-             return $result[0]['id'];
+             $bank = new Bank(
+                 (int)$result[0]['user_id'],
+                 $result[0]['owner_name'],
+                 $result[0]['IBAN'],
+                 (int)$result[0]['money']
+             );
+             $bank->setId((int)$result[0]['id']);
+             return $bank;
          }
-         return -1;
+         return new Bank(
+             -1,
+             "$result[0]['owner']",
+             " $result[0]['iban']",
+             0
+         );
      }
+
+    public function addBankAccount(int $user_id, string $owner, string $iban): void
+    {
+        $query = <<<'QUERY'
+        INSERT INTO bank(user_id, owner_name, iban)
+        VALUES(:user_id, :owner, :iban)
+QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
+        $statement = $this->database->connection()->prepare($query);
+
+        $statement->bindParam('user_id', $user_id, PDO::PARAM_STR);
+        $statement->bindParam('owner', $owner, PDO::PARAM_STR);
+        $statement->bindParam('iban', $iban, PDO::PARAM_STR);
+
+        $statement->execute();
+    }
+
+    public function addMoneyToWallet(int $user_id, int $money){
+        $query = <<<'QUERY'
+        UPDATE user set wallet=:wallet WHERE id=:id
+QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
+        $statement = $this->database->connection()->prepare($query);
+
+        $statement->bindParam('wallet', $money, PDO::PARAM_STR);
+        $statement->bindParam('id', $user_id, PDO::PARAM_STR);
+        $statement->execute();
+    }
 
     public function changePassword(String $password, String $email): void
     {

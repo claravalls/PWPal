@@ -77,21 +77,15 @@ $app->post(
 
 $app->get(
     '/account/bank-account',
-    BankController::class . ":addBankAccount"
+    BankController::class . ":showBankAccount"
 )->setName('profile');
-/*
-$app->get(
-    '/visits',
-    VisitsController::class . ":showVisits"
-)->setName('visits');
-
-$app->get(
-    '/cookies',
-    CookieMonsterController::class . ":showAdvice"
-)->setName('cookies');
 
 $app->post(
-    '/users',
-    PostUserController::class . ":create"
-)->setName('create_user');
-*/
+    '/account/bank-account',
+    BankController::class . ":addBankAccount"
+)->setName('profile');
+
+$app->post(
+    '/account/bank-account/load',
+    BankController::class . ":addMoneyToWallet"
+)->setName('profile');
