@@ -88,7 +88,7 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
                 $birthday,
                 $created,
                 $updated,
-                DashBoardController::DEFAULT_PICTURE,
+                $result[0]['photo'],
                 (int)$result[0]['wallet'],
                 $result[0]['token'],
                 (bool)$result[0]['activated']
@@ -203,6 +203,18 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $statement->bindParam('email', $email, PDO::PARAM_STR);
         $statement->bindParam('telefon', $phone, PDO::PARAM_STR);
         $statement->bindParam('photo', $photo, PDO::PARAM_STR);
+        $statement->execute();
+    }
+
+    public function editProfileNotPhoto(String $phone, String $email): void
+    {
+        $query = <<<'QUERY'
+        UPDATE user set telefon=:telefon WHERE email=:email
+QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
+        $statement = $this->database->connection()->prepare($query);
+
+        $statement->bindParam('email', $email, PDO::PARAM_STR);
+        $statement->bindParam('telefon', $phone, PDO::PARAM_STR);
         $statement->execute();
     }
 }
