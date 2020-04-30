@@ -20,4 +20,23 @@
         <button type="submit">Bank account</button>
     </form>
 
+    <form action="/account/summary" method="GET" accept-charset="utf-8">
+        <h3>Current balance</h3>
+        <input type="number" src="{{ wallet }}" alt="Current balance">
+
+        <h3>Last transactions</h3>
+        <input list="transactions">
+        <datalist>
+            <option value="20" id="positive_trans"> //Primera transacció els 20 que et fiquen al loggejarte, nomes per veure que funciona
+        </datalist>
+
+        <form action="/account/money/send" method="GET" accept-charset="utf-8">
+            <button type="submit">Send money</button>
+        </form>
+
+        <form action="/account/money/request" method="GET" accept-charset="utf-8">
+            <button type="submit">Request money</button>
+        </form>
+    </form>
+
 {% endblock %}
