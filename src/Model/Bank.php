@@ -10,18 +10,15 @@ final class Bank
     private int $user_id;
     private string $owner;
     private string $iban;
-    private int $money;
 
     public function __construct(
         int $user_id,
         string $owner,
-        string $iban,
-        int $money
+        string $iban
     ){
         $this->user_id = $user_id;
         $this->owner = $owner;
         $this->iban = $iban;
-        $this->money = $money;
     }
 
     public function setId(int $id): self
