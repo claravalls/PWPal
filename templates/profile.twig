@@ -21,7 +21,7 @@
             </tr>
         </table>
         <label style="font-family:Arial" for="output">Change profile picture </label><br>
-        <input type="file" name="photo" accept="image/png" onchange="loadFile()"><br>
+        <input type="file" name="photo" accept="image/png" value="{{ image }}" onchange="loadFile()"><br>
         <img id="output" name="image" width="400" height="400" src="{{ photo }}"/>
         <script>
             var loadFile = function() {
