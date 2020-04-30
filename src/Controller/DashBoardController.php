@@ -34,7 +34,8 @@ final class DashBoardController
                 'dash.twig',
                 [
                     'photo' => $user->photo(),
-                    'bank_account' => $bank_id
+                    'bank_account' => $bank_id,
+                    'wallet' => $user->wallet()
                 ]
             );
         }
