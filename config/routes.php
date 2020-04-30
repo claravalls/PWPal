@@ -1,5 +1,6 @@
 <?php
 
+use SallePW\SlimApp\Controller\BankController;
 use SallePW\SlimApp\Controller\DashBoardController;
 use \SallePW\SlimApp\Controller\HomeController;
 use SallePW\SlimApp\Controller\PostSignInController;
@@ -72,6 +73,11 @@ $app->get(
 $app->post(
     '/profile/security',
     ProfileController::class . ":updateProfileSecurity"
+)->setName('profile');
+
+$app->get(
+    '/account/bank-account',
+    BankController::class . ":addBankAccount"
 )->setName('profile');
 /*
 $app->get(

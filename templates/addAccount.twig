@@ -1,0 +1,19 @@
+{% extends "base.twig" %}
+
+{% block title %}Bank account{% endblock %}
+
+{% block header %}Bank account{% endblock %}
+
+{% if bank is empty %}
+    <form action="/sign-in" method="POST" accept-charset="utf-8">
+        <input type="email" name="email" value="{{ email }}" placeholder="Enter your email" required>
+        <input type="password" name="password" value="{{ password }}" placeholder="Enter your password" required>
+        <input type="hidden" name="action" value={% block type %}{% endblock %}>
+
+        <button type="submit">Add bank account</button>
+    </form>
+{% else %}
+    
+{% endif %}
+
+

@@ -18,8 +18,10 @@
             </form>
         </ol>
     {% else %}
-        <input type="text" src="{{ email }}" alt="User email">
-        <input type="image" src="{{ photo }}" alt="Profile picture" height="170" width="170">
+    <p>{{ email }}</p>
+        <form action="/profile" method="GET" accept-charset="utf-8">
+            <input type="image" src="{{ photo }}" alt="Profile picture" height="170" width="170">
+        </form>
     {% endif %}
 {% endblock %}
 

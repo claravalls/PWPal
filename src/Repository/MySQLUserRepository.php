@@ -123,6 +123,25 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $statement->execute();
     }
 
+     public function findBankAccount (int $id):int
+     {
+         $query = <<<'QUERY'
+        SELECT id FROM bank WHERE user_id=?
+QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
+
+         $statement = $this->database->connection()->prepare($query);
+
+         $statement->bindParam(1, $id, PDO::PARAM_STR);
+         $statement->execute();
+
+         $result = $statement->fetchAll();
+
+         if (sizeof($result)) {
+             return $result[0]['id'];
+         }
+         return -1;
+     }
+
     public function changePassword(String $password, String $email): void
     {
         $query = <<<'QUERY'

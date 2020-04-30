@@ -8,7 +8,16 @@
         <button type="submit">Log out</button>
     </form>
     <br>
+    <form action="/" method="GET" accept-charset="utf-8">
+        <button type="submit">Home</button>
+    </form>
+    <br>
     <form action="/profile" method="GET" accept-charset="utf-8">
         <input type="image" src="{{ photo }}" alt="Profile picture" height="170" width="170">
     </form>
+
+    <form action="/account/bank-account" method="GET" accept-charset="utf-8">
+        <button type="submit">Bank account</button>
+    </form>
+
 {% endblock %}
