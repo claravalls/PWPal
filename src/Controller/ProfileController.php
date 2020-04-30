@@ -24,7 +24,7 @@ final class ProfileController
 
             header("Location: /sign-in");
         }
-        
+
         $user = $_SESSION['user'];
 
         return $this->container->get('view')->render(
@@ -48,17 +48,17 @@ final class ProfileController
         $user = $_SESSION['user'];
 
         $data = $request->getParsedBody();
-
-        $errors = $this->isValid($data['photo'], $data['phone']);
+        $errors = $this->isValid($_FILES['photo']['name'], $data['phone']);
 
         if(empty($errors))
         {
             $userComprovar = $this->container->get('user_repository')->search($user->email(), "email");
             if($userComprovar->id() > 0) {
                 $this->container->get('user_repository')->editProfile($data['phone'], $data['photo'] ?? "", $user->email());
+                $_SESSION['user'] = $user;
             }
         }
-
+        $path = basename("public/uploads/");
         return $this->container->get('view')->render(
             $response,
             'profile.twig',
@@ -67,7 +67,7 @@ final class ProfileController
                 'email' => $user->email(),
                 'birthday' => $user->birthday()->format('Y-m-d'),
                 'phone' => $data['phone'],
-                'photo' => $data['photo']
+                'photo' => $path."/".$_FILES['photo']['name']
             ]
         );
     }
@@ -103,7 +103,8 @@ final class ProfileController
             if($userComprovar->id() > 0) {
                 $newpassword = md5($data['passwordnew']);
                 $this->container->get('user_repository')->changePassword($newpassword, $user->email());
-                $errors[] = 'Password changed correctly';
+                $errors[] = 'The password has been updated correctly';
+                $_SESSION['user'] = $user;
             }
         }
         return $this->container->get('view')->render(
@@ -124,10 +125,10 @@ final class ProfileController
             $errors[] = 'Incorrect format of phone number';
         }
 
-        /*if($this->validatePhoto($photo) == false)
+        if($this->validatePhoto($photo) == false)
         {
             $errors[] = 'Incorrect format of image, must be a PNG extension and the size lower than 1MB';
-        }*/
+        }
 
         return $errors;
     }
@@ -176,21 +177,20 @@ final class ProfileController
 
     function validatePhoto($photo)
     {
+        $path = basename("uploads/");
+        $uploadfile = $path."/".basename($_FILES['photo']['name']);
 
-        $file_name = $photo;
-        $file = get_headers($photo, 1);
-        $file_ext=strtolower(end(explode('.',$photo)));
-        $bytes = $file ["Content-Length"];
-        $size =  $bytes/(1024 * 1024);
-        $expensions = array("png");
-
-        if(in_array($file_ext,$expensions) === false){
-           return false;
-        }else if($size > 1048576) {
+        if (move_uploaded_file($_FILES['photo']['tmp_name'], $uploadfile))
+        {
+            $filesize = filesize($path."/".basename($_FILES['photo']['name']));
+            $filesize = round($filesize / 1024, 2);
+            if($filesize > 1048576) {
+                return false;
+            }else{
+                return true;
+            }
+        } else {
             return false;
-        }else{
-            move_uploaded_file($photo,"../../public/uploads/".$file_name);
-            return true;
         }
 
     }
