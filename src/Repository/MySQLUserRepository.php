@@ -141,18 +141,18 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
              $bank = new Bank(
                  (int)$result[0]['user_id'],
                  $result[0]['owner_name'],
-                 $result[0]['IBAN'],
-                 (int)$result[0]['money']
+                 $result[0]['IBAN']
              );
              $bank->setId((int)$result[0]['id']);
              return $bank;
          }
-         return new Bank(
+        $bank = new Bank(
              -1,
-             "$result[0]['owner']",
-             " $result[0]['iban']",
-             0
+             "",
+             ""
          );
+         $bank->setId(-1);
+         return $bank;
      }
 
     public function addBankAccount(int $user_id, string $owner, string $iban): void

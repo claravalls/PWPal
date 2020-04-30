@@ -26,15 +26,15 @@ final class DashBoardController
         }
         $user = $_SESSION['user'];
 
-        $bank_id = $userComprovar = $this->container->get('user_repository')->findBankAccount($user->id());
-        $path = basename("public/uploads/");
+        $bank_id = $this->container->get('user_repository')->findBankAccount($user->id());
+        $path = basename("/public/uploads/");
 
-        if($bank_id >= 0){
+        if($bank_id->id() >= 0){
             return $this->container->get('view')->render(
                 $response,
                 'dash.twig',
                 [
-                    'photo' => $path."/".$user->photo(),
+                    'photo' => "../../".$path."/".$user->photo(),
                     'bank_account' => $bank_id
                 ]
             );
@@ -43,7 +43,7 @@ final class DashBoardController
             $response,
             'dash.twig',
             [
-                'photo' => $path."/".$user->photo()
+                'photo' => "../../".$path."/".$user->photo(),
             ]
         );
     }
