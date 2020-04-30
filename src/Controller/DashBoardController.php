@@ -25,6 +25,19 @@ final class DashBoardController
             header("Location: /sign-in");
         }
         $user = $_SESSION['user'];
+
+        $bank_id = $userComprovar = $this->container->get('user_repository')->findBankAccount($user->id());
+
+        if($bank_id >= 0){
+            return $this->container->get('view')->render(
+                $response,
+                'dash.twig',
+                [
+                    'photo' => $user->photo(),
+                    'bank_account' => $bank_id
+                ]
+            );
+        }
         return $this->container->get('view')->render(
             $response,
             'dash.twig',

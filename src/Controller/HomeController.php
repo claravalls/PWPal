@@ -19,13 +19,11 @@ final class HomeController
     {
         $messages = $this->container->get('flash')->getMessages();
 
-        $notifications = $messages['notifications'] ?? [];
         if (!isset($_SESSION['user'])){
             return $this->container->get('view')->render(
                 $response,
                 'home.twig',
                 [
-                    'notifications' => $notifications
                 ]
             );
         }else {
@@ -34,7 +32,6 @@ final class HomeController
                 $response,
                 'home.twig',
                 [
-                    'notifications' => $notifications,
                     'user' => $user,
                     'photo' => $user->photo(),
                     'mail' => $user->email()
