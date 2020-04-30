@@ -26,6 +26,7 @@ final class ProfileController
         }
 
         $user = $_SESSION['user'];
+        $path = basename("public/uploads/");
 
         return $this->container->get('view')->render(
             $response,
@@ -34,7 +35,7 @@ final class ProfileController
                 'email' => $user->email(),
                 'birthday' => $user->birthday()->format('Y-m-d'),
                 'phone' => $user->telefon(),
-                'photo' => $user->photo()
+                'photo' => $path."/".$user->photo()
             ]
         );
     }
@@ -48,14 +49,21 @@ final class ProfileController
         $user = $_SESSION['user'];
 
         $data = $request->getParsedBody();
-        $errors = $this->isValid($_FILES['photo']['name'], $data['phone']);
+        $errors = $this->isValid($_FILES['photo']['name'], $data['phone'], $_FILES['photo']['tmp_name']);
 
         if(empty($errors))
         {
             $userComprovar = $this->container->get('user_repository')->search($user->email(), "email");
             if($userComprovar->id() > 0) {
-                $this->container->get('user_repository')->editProfile($data['phone'], $data['photo'] ?? "", $user->email());
-                $_SESSION['user'] = $user;
+                if($_FILES['photo']['name'] == NULL)
+                {
+                    $_FILES['photo']['name'] = $user->photo();
+                    $this->container->get('user_repository')->editProfileNotPhoto($data['phone'], $user->email());
+                }else {
+                    $this->container->get('user_repository')->editProfile($data['phone'], $_FILES['photo']['name'] ?? $user->photo(), $user->email());
+                }
+                $userComprovar = $this->container->get('user_repository')->search($user->email(), "email");
+                $_SESSION['user'] = $userComprovar;
             }
         }
         $path = basename("public/uploads/");
@@ -66,8 +74,9 @@ final class ProfileController
                 'errors' => $errors,
                 'email' => $user->email(),
                 'birthday' => $user->birthday()->format('Y-m-d'),
-                'phone' => $data['phone'],
-                'photo' => $path."/".$_FILES['photo']['name']
+                'phone' => $user->telefon(),
+                'photo' => $path."/".$_FILES['photo']['name'],
+                'image' => $user->photo()
             ]
         );
     }
@@ -104,9 +113,11 @@ final class ProfileController
                 $newpassword = md5($data['passwordnew']);
                 $this->container->get('user_repository')->changePassword($newpassword, $user->email());
                 $errors[] = 'The password has been updated correctly';
-                $_SESSION['user'] = $user;
+                $userComprovar = $this->container->get('user_repository')->search($user->email(), "email");
+                $_SESSION['user'] = $userComprovar;
             }
         }
+
         return $this->container->get('view')->render(
             $response,
             'security.twig',
@@ -116,7 +127,7 @@ final class ProfileController
         );
     }
 
-    function isValid(?string $photo, ?string $phone)
+    function isValid(?string $photo, ?string $phone, ?string $temp)
     {
         $errors = [];
 
@@ -125,7 +136,7 @@ final class ProfileController
             $errors[] = 'Incorrect format of phone number';
         }
 
-        if($this->validatePhoto($photo) == false)
+        if($this->validatePhoto($photo, $temp) == false)
         {
             $errors[] = 'Incorrect format of image, must be a PNG extension and the size lower than 1MB';
         }
@@ -175,23 +186,25 @@ final class ProfileController
         }
     }
 
-    function validatePhoto($photo)
+    function validatePhoto($photo, $temp)
     {
         $path = basename("uploads/");
-        $uploadfile = $path."/".basename($_FILES['photo']['name']);
+        $uploadfile = $path."/".basename($photo);
 
-        if (move_uploaded_file($_FILES['photo']['tmp_name'], $uploadfile))
-        {
-            $filesize = filesize($path."/".basename($_FILES['photo']['name']));
-            $filesize = round($filesize / 1024, 2);
-            if($filesize > 1048576) {
+        if(!empty($photo)) {
+            if (move_uploaded_file($temp, $uploadfile)) {
+                $filesize = filesize($path . "/" . basename($photo));
+                $filesize = round($filesize / 1024, 2);
+                if ($filesize > 1048576) {
+                    return false;
+                } else {
+                    return true;
+                }
+            } else {
                 return false;
-            }else{
-                return true;
             }
-        } else {
-            return false;
         }
+        return true;
 
     }
 

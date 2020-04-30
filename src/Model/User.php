@@ -125,7 +125,6 @@ CREATE TABLE `bank` (
         `user_id` INT(11) UNSIGNED NOT NULL,
         `owner_name` VARCHAR(255) NOT NULL DEFAULT '',
         `IBAN` VARCHAR(255) NOT NULL DEFAULT '',
-        `money` INT(11),
         PRIMARY KEY (`id`),
         CONSTRAINT `bank_ibfk_1` FOREIGN KEY (`id`)
         REFERENCES `user` (`id`) ON DELETE CASCADE

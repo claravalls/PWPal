@@ -28,12 +28,13 @@ final class HomeController
             );
         }else {
             $user = $_SESSION['user'];
+            $path = basename("public/uploads/");
             return $this->container->get('view')->render(
                 $response,
                 'home.twig',
                 [
                     'user' => $user,
-                    'photo' => $user->photo(),
+                    'photo' => $path."/".$user->photo(),
                     'email' => $user->email()
                 ]
             );
