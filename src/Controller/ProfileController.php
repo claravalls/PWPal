@@ -27,7 +27,7 @@ final class ProfileController
 
         $user = $_SESSION['user'];
         $path = basename("public/uploads/");
-        
+
         return $this->container->get('view')->render(
             $response,
             'profile.twig',
@@ -74,7 +74,7 @@ final class ProfileController
                 'errors' => $errors,
                 'email' => $user->email(),
                 'birthday' => $user->birthday()->format('Y-m-d'),
-                'phone' => $data['phone'],
+                'phone' => $user->telefon(),
                 'photo' => $path."/".$_FILES['photo']['name'],
                 'image' => $user->photo()
             ]
