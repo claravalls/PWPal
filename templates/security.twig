@@ -9,12 +9,20 @@
 
     <h1>Change Password</h1>
     <form action="/profile/security" method="POST" accept-charset="utf-8">
-        <input type="password" name="passwordold" value="" placeholder="Enter old password" required>
-        <br><br>
-        <input type="password" name="passwordnew" value="" placeholder="Enter new password" required>
-        <br><br>
-        <input type="password" name="checkpass" value="" placeholder="Confirm password" required>
-        <br><br>
+        <table>
+            <tr>
+                <td><label style="font-family:Arial" for="current">Current password</label></td>
+                <td><input type="password" id="current" name="passwordold" value="" placeholder="Enter old password" required></td>
+            </tr>
+            <tr>
+                <td><label style="font-family:Arial" for="id">New password</label></td>
+                <td><input type="password" id="new" name="passwordnew" value="" placeholder="Enter new password" required></td>
+            </tr>
+            <tr>
+                <td><label style="font-family:Arial" for="confirm">Confirm password</label></td>
+                <td><input type="password" id="confirm" name="checkpass" value="" placeholder="Confirm password" required></td>
+            </tr>
+        </table>
         <button type="submit">Change Password</button>
         <br>
     {% if errors is not empty %}
