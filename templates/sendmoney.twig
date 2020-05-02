@@ -1,0 +1,30 @@
+{% extends "base.twig" %}
+
+{% block title %}Send Money{% endblock %}
+
+{% block content %}
+
+    <h1>Edit Profile</h1>
+    <form action="/account/money/send" method="POST" accept-charset="utf-8">
+        <table>
+            <tr>
+                <td><label style="font-family:Arial" for="email">Send money to</label></td>
+                <td><input type="email" id="email" name="email" value="{{ email }}" placeholder="Enter the email"></td>
+            </tr>
+            <tr>
+                <td><label style="font-family:Arial" for="birthday">Amount </label></td>
+                <td><input type="number" id="number" name="amount" step="any" placeholder="€" value="{{ amount }}" ></td>
+            </tr>
+        </table>
+        {% if errors is not empty %}
+            <ol>
+                {% for error in errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </ol>
+        {% endif %}
+        <br>
+        <button type="submit">Send</button>
+    </form>
+{% endblock %}
+

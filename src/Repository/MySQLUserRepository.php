@@ -217,4 +217,51 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $statement->bindParam('telefon', $phone, PDO::PARAM_STR);
         $statement->execute();
     }
+
+    public function getMoney(String $email): int
+    {
+        $query = <<<'QUERY'
+        SELECT * FROM user WHERE email=:email
+QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
+        $statement = $this->database->connection()->prepare($query);
+
+        $statement->bindParam('email', $email, PDO::PARAM_STR);
+        $statement->execute();
+
+        $result = $statement->fetchAll();
+
+        if (sizeof($result)) {
+            return (int)$result[0]['wallet'];
+        }
+    }
+
+    public function getUserToSend(String $email): bool
+    {
+        $query = <<<'QUERY'
+        SELECT * FROM user WHERE activated=1 and email=:email
+QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
+        $statement = $this->database->connection()->prepare($query);
+
+        $statement->bindParam('email', $email, PDO::PARAM_STR);
+        $statement->execute();
+
+        $result = $statement->fetchAll();
+
+        if (sizeof($result)) {
+            return true;
+        }
+        return false;
+    }
+
+    public function updateMoney(String $email, Int $amount): void
+    {
+        $query = <<<'QUERY'
+        UPDATE user set wallet=:wallet WHERE email=:email
+QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
+        $statement = $this->database->connection()->prepare($query);
+
+        $statement->bindParam('wallet', $amount, PDO::PARAM_INT);
+        $statement->bindParam('email', $email, PDO::PARAM_STR);
+        $statement->execute();
+    }
 }

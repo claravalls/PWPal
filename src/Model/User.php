@@ -103,6 +103,11 @@ final class User
     {
         return $this->wallet;
     }
+
+    public function setWallet($amount): void
+    {
+        $this->wallet = $amount;
+    }
 }
 
 /*

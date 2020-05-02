@@ -94,6 +94,46 @@ final class BankController
         );
     }
 
+    public function sendMoney(Request $request, Response $response): Response{
+
+        $data = $request->getParsedBody();
+
+        if (!isset($_SESSION['user'])){
+
+            header("Location: /sign-in");
+        }
+        $user = $_SESSION['user'];
+
+        $errors = $this->isValid($data['email'], $data['amount']);
+        if(empty($errors)) {
+            $exists = $this->container->get('user_repository')->getUserToSend($data['email']);
+
+            if($data['amount'] > $user->wallet()) {
+                $errors[] = "Insuficient money for the transaction";
+            }else {
+                if ($exists == true) {
+                    $this->container->get('user_repository')->updateMoney($user->email(), ($user->wallet() - $data['amount']));
+                    $newmoney = $this->container->get('user_repository')->getMoney($data['email']);
+                    $this->container->get('user_repository')->updateMoney($data['email'], ($newmoney + $data['amount']));
+                    $user->setWallet($user->wallet() - $data['amount']);
+                    $_SESSION['user'] = $user;
+                } else {
+                    $errors[] = "The user email don't exist or don't have the account activated";
+                }
+            }
+        }
+
+        return $this->container->get('view')->render(
+            $response,
+            'sendmoney.twig',
+            [
+                'errors' => $errors,
+                'email' => $data['email'],
+                'amount' => $data['amount']
+            ]
+        );
+    }
+
     public function validateIban(string $iban)
     {
         $errors = [];
@@ -105,5 +145,37 @@ final class BankController
             }
         }
         return $errors;
+    }
+
+    function isValid(?string $email, ?int $number)
+    {
+        $errors = [];
+
+        if ($this->validEmail($email)==false) {
+            $errors[] = sprintf('The email %s is not valid', $email);
+        }
+
+        if (is_numeric($number)) {
+            if($number < 0)
+                $errors[] = sprintf('The amount is not valid, it must be positive and valid decimal number');
+        }
+
+        return $errors;
+    }
+
+    public function validEmail(?string $email){
+
+        if(filter_var($email, FILTER_VALIDATE_EMAIL) === false){
+            return FALSE;
+        }
+
+        $domain = explode("@", $email, 2);
+
+        if($domain[1] == "salle.url.edu")
+        {
+            return true;
+        }
+        return false;
+
     }
 }

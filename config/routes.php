@@ -89,3 +89,13 @@ $app->post(
     '/account/bank-account/load',
     BankController::class . ":addMoneyToWallet"
 )->setName('profile');
+
+$app->get(
+    '/account/money/send',
+    BankController::class . ":sendMoney"
+)->setName('profile');
+
+$app->post(
+    '/account/money/send',
+    BankController::class . ":sendMoney"
+)->setName('profile');
