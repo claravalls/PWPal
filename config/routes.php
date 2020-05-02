@@ -92,8 +92,8 @@ $app->post(
 
 $app->get(
     '/account/money/send',
-    BankController::class . ":sendMoney"
-)->setName('profile');
+    BankController::class . ":showSendMoneyPage"
+)->setName('pageSend');
 
 $app->post(
     '/account/money/send',

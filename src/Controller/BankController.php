@@ -93,7 +93,19 @@ final class BankController
             ]
         );
     }
+    public function showSendMoneyPage(Request $request, Response $response): Response
+    {
+        if (!isset($_SESSION['user'])){
 
+            header("Location: /sign-in");
+        }
+        return $this->container->get('view')->render(
+            $response,
+            'sendmoney.twig',
+            [
+            ]
+        );
+    }
     public function sendMoney(Request $request, Response $response): Response{
 
         $data = $request->getParsedBody();
@@ -103,8 +115,11 @@ final class BankController
             header("Location: /sign-in");
         }
         $user = $_SESSION['user'];
-
-        $errors = $this->isValid($data['email'], $data['amount']);
+        if(empty($data['amount']))
+        {
+            $data['amount'] = 0;
+        }
+            $errors = $this->isValid($data['email'] ?? "", $data['amount']);
         if(empty($errors)) {
             $exists = $this->container->get('user_repository')->getUserToSend($data['email']);
 
@@ -117,6 +132,9 @@ final class BankController
                     $this->container->get('user_repository')->updateMoney($data['email'], ($newmoney + $data['amount']));
                     $user->setWallet($user->wallet() - $data['amount']);
                     $_SESSION['user'] = $user;
+                    $errors[] = "Transaction is finished successfully";
+                    $errors[] = "Redirecting..";
+                    $url = "/account/summary";
                 } else {
                     $errors[] = "The user email don't exist or don't have the account activated";
                 }
@@ -129,7 +147,8 @@ final class BankController
             [
                 'errors' => $errors,
                 'email' => $data['email'],
-                'amount' => $data['amount']
+                'amount' => $data['amount'],
+                'url' => $url ?? ''
             ]
         );
     }
@@ -156,7 +175,7 @@ final class BankController
         }
 
         if (is_numeric($number)) {
-            if($number < 0)
+            if($number <= 0)
                 $errors[] = sprintf('The amount is not valid, it must be positive and valid decimal number');
         }
 

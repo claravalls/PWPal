@@ -6,6 +6,9 @@
 
     <h1>Edit Profile</h1>
     <form action="/account/money/send" method="POST" accept-charset="utf-8">
+        {% if url is not empty %}
+            <meta http-equiv="refresh" content="2;url={{ url }}">
+        {% endif %}
         <table>
             <tr>
                 <td><label style="font-family:Arial" for="email">Send money to</label></td>
@@ -13,7 +16,7 @@
             </tr>
             <tr>
                 <td><label style="font-family:Arial" for="birthday">Amount </label></td>
-                <td><input type="number" id="number" name="amount" step="any" placeholder="€" value="{{ amount }}" ></td>
+                <td><input type="number" id="number" name="amount" placeholder="€" value="{{ amount }}" ></td>
             </tr>
         </table>
         {% if errors is not empty %}
