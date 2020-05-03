@@ -24,17 +24,14 @@
         <p>IBAN: {{iban}}</p>
         <form action="/account/bank-account/load" method="POST" accept-charset="utf-8">
             Add money to wallet <input type="number" name="amount" value="0" required>
-
+            <br>
             <button type="submit">Add amount</button>
         </form>
     {% endif %}
-    <br>
 
     {% if load_message is not empty %}
         <p>{{ load_message }}</p>
     {% endif %}
-
-    <br>
     <form action="/" method="GET" accept-charset="utf-8">
         <button type="submit">Home</button>
     </form>

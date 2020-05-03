@@ -4,10 +4,12 @@
 
 {% block content %}
     <h1>{% block header %}{% endblock %}</h1>
-
+    <p>{% block info %}{%  endblock %}</p>
     <form {% block form_header %}{% endblock %}>
         <input type="email" name="email" value="{{ email }}" placeholder="Enter your email" required>
+        <br>
         <input type="password" name="password" value="{{ password }}" placeholder="Enter your password" required>
+        <br>
         <input type="hidden" name="action" value={% block type %}{% endblock %}>
         {% block other %}{% endblock %}
         <button type="submit">{% block button %}{% endblock %}</button>
