@@ -6,10 +6,10 @@
 
 {% block form_header %}action="./sign-up" method="POST" accept-charset="utf-8"{% endblock %}
 {% block type %}up{% endblock %}
-
+{% block info %} Compra y envía dinero a todo el mundo de forma rápida y sencilla.{% endblock %}
 {% block other %}
 
-<input type="date" name="birthday" value="{{ birthday }}" required>
+<input type="date" name="birthday" value="{{ birthday }}" required><br>
 <input type="tel" id="phone" name="phone" placeholder="+34" pattern="[+]{1}[34]{2}[0-9]{3}[0-9]{3}[0-9]{3}" value="{{ phone }}">
 
     {% if errors is not empty %}
@@ -19,7 +19,7 @@
             {% endfor %}
         </ol>
     {% endif %}
-
+<br>
 {% endblock %}
 {% block button %}Sign Up{% endblock %}
 

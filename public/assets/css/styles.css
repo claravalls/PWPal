@@ -14,7 +14,34 @@ h3{
 	size: 20px;
 	color: cornflowerblue;
 }
-
+input{
+	width: 250px;
+	padding: 12px 4px;
+	margin: 4px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+button{
+	background-color: #0070ba;
+	border-radius: 1.5rem;
+	border: .0625rem solid #0070ba;
+	color: #fff;
+	cursor: pointer;
+	display: inline-block;
+	font-family: PayPal-Sans,Helvetica Neue,Arial,sans-serif;
+	font-size: .9375rem;
+	line-height: 1.5rem;
+	margin-bottom: 1.5rem;
+	min-width: 6rem;
+	padding: .6875rem 1.4375rem;
+	text-align: center;
+	text-decoration: none;
+	transition: color 240ms,background-color 240ms,border-color 240ms,box-shadow 240ms;
+	font-weight: 700;
+	-webkit-font-smoothing: antialiased;
+}
 .error{
 	color: red;
 }
