@@ -9,6 +9,7 @@ use PDO;
 use SallePW\SlimApp\Controller\DashBoardController;
 use SallePW\SlimApp\Model\Bank;
 use SallePW\SlimApp\Model\User;
+use SallePW\SlimApp\Model\Transaction;
 use SallePW\SlimApp\Model\UserRepository;
 
 final class MySQLUserRepository implements UserRepository
