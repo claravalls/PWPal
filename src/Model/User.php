@@ -141,9 +141,9 @@ CREATE TABLE `transaction` (
         `id_receiver` INT(11) UNSIGNED NOT NULL,
         `quantity` INT(11) UNSIGNED NOT NULL,
         PRIMARY KEY (`id`),
-        CONSTRAINT `id_sender` FOREIGN KEY (`user_id`)
+        CONSTRAINT `id_sender,` FOREIGN KEY (`id_sender`)
         REFERENCES `user` (`id`) ON DELETE CASCADE,
-        CONSTRAINT `id_receiver` FOREIGN KEY (`user_id`)
+        CONSTRAINT `id_receiver` FOREIGN KEY (`id_receiver`)
         REFERENCES `user` (`id`) ON DELETE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
  */
