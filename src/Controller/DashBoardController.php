@@ -45,7 +45,9 @@ final class DashBoardController
             'dash.twig',
             [
                 'photo' => "../../".$path."/".$user->photo(),
+                'wallet' => $user->wallet()
             ]
         );
     }
 }
+
