@@ -1,17 +1,22 @@
 body{
 	background: white;
+	font-family: pp-sans-small-regular,Helvetica Neue,Arial,sans-serif;
 }
 
 h1{
 	size: 40px;
 	background-color: rgb(54, 90, 149);
 	color: white;
-	font-family: Castellar, serif;
+	font-family: pp-sans-big-light,Helvetica Neue,Arial,sans-serif;
 }
 
 h3{
 	size: 20px;
 	color: cornflowerblue;
+}
+
+.error{
+	color: red;
 }
 
 #positive_trans{
