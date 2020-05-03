@@ -53,3 +53,13 @@ button{
 #negative_trans{
 	color: red;
 }
+
+.currentBalance{
+	height: 40px;
+	width: auto;
+	background-color: rgb(230, 230, 230);
+	color: rgb(54, 90, 149);
+	font-size: 24px;
+	border-radius: 10px;
+	text-align: center;
+}

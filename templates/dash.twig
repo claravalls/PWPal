@@ -22,7 +22,8 @@
 
     <form action="/account/summary" method="GET" accept-charset="utf-8">
         <h3>Current balance</h3>
-        <input type="number" value="{{ wallet }}" alt="Current balance">
+
+        <input class="currentBalance" id="cBalance" value="{{ wallet }}" alt="Current balance" disabled>
 
         <h3>Last transactions</h3>
         <input list="transactions">
