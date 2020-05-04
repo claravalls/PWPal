@@ -81,9 +81,9 @@ button:hover{
 	background: #0070ba;
 	display: grid;
 	grid-template-rows: 100%;
-	grid-template-columns: 80% 20%;
+	grid-template-columns: 20% 60% 20%;
 	grid-template-areas:
-			"title buttons";
+			". title buttons";
 }
 
 .title{
