@@ -5,24 +5,27 @@
 {% block header %}Home page{% endblock %}
 
 {% block content %}
+    <div class="header_buttons">
+        <div class="title">
+            <h1>Welcome to PwPay!</h1>
+        </div>
 
-    <h1>Welcome to PwPay!</h1>
-    
-    {% if user is empty %}
-        <ol>
-            <form action="/sign-in" method="GET" accept-charset="utf-8">
-                <button type="submit">Sign In</button>
-            </form>
-            <form action="/sign-up" method="GET" accept-charset="utf-8">
-                <button type="submit">Sign Up</button>
-            </form>
-        </ol>
-    {% else %}
-    <p>{{ email }}</p>
-        <form action="/profile" method="GET" accept-charset="utf-8">
-            <input type="image" src="{{ photo }}" alt="Profile picture" height="170" width="170">
-        </form>
-    {% endif %}
+        <div class="buttons">
+            {% if user is empty %}
+                    <form action="/sign-in" method="GET" accept-charset="utf-8">
+                        <button class="white_button" type="submit">Sign In</button>
+                    </form>
+                    <form action="/sign-up" method="GET" accept-charset="utf-8">
+                        <button class="white_button" type="submit">Sign Up</button>
+                    </form>
+            {% else %}
+                <p>{{ email }}</p>
+                <form action="/profile" method="GET" accept-charset="utf-8">
+                    <input type="image" src="{{ photo }}" alt="Profile picture" height="80" width="80">
+                </form>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}
 
 {% block footer %}PW II - La Salle URL{% endblock %}

@@ -5,15 +5,18 @@ body{
 
 h1{
 	size: 40px;
-	background-color: rgb(54, 90, 149);
+	background-color: #0070ba;
 	color: white;
-	font-family: pp-sans-big-light,Helvetica Neue,Arial,sans-serif;
+	font-family: PayPalSansBig-Light,Helvetica Neue,Arial,sans-serif;
+	padding: 3%;
+	text-align: center;
 }
 
 h3{
 	size: 20px;
 	color: cornflowerblue;
 }
+
 input{
 	width: 250px;
 	padding: 12px 4px;
@@ -23,10 +26,14 @@ input{
 	border-radius: 4px;
 	box-sizing: border-box;
 }
+form{
+	text-align: center;
+}
+
 button{
 	background-color: #0070ba;
 	border-radius: 1.5rem;
-	border: .0625rem solid #0070ba;
+	border: none;
 	color: #fff;
 	cursor: pointer;
 	display: inline-block;
@@ -41,6 +48,11 @@ button{
 	transition: color 240ms,background-color 240ms,border-color 240ms,box-shadow 240ms;
 	font-weight: 700;
 	-webkit-font-smoothing: antialiased;
+}
+
+button:hover{
+	background-color: #003f69;
+	color: #fff;
 }
 .error{
 	color: red;
@@ -63,3 +75,29 @@ button{
 	border-radius: 10px;
 	text-align: center;
 }
+
+.header_buttons{
+	width: 100%;
+	background: #0070ba;
+	display: grid;
+	grid-template-rows: 100%;
+	grid-template-columns: 80% 20%;
+	grid-template-areas:
+			"title buttons";
+}
+
+.title{
+	grid-area: title;
+}
+
+.buttons{
+	grid-area: buttons;
+	align-self: center;
+}
+
+.white_button{
+	background-color: #ffffff;
+	color: #0070ba;
+	margin: 3%;
+}
+

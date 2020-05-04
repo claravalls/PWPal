@@ -3,7 +3,18 @@
 {% block title %}{% endblock %}
 
 {% block content %}
-    <h1>{% block header %}{% endblock %}</h1>
+    <div class="header_buttons">
+        <div class="title">
+            <h1>{% block header %}{% endblock %}</h1>
+        </div>
+
+        <div class="buttons">
+            <form action="{% block opposite_action %}{% endblock %}" method="GET" accept-charset="utf-8">
+                <button class="white_button" type="submit">{% block opposite_button %}{% endblock %}</button>
+            </form>
+        </div>
+    </div>
+
     <p>{% block info %}{%  endblock %}</p>
     <form {% block form_header %}{% endblock %}>
         <input type="email" name="email" value="{{ email }}" placeholder="Enter your email" required>

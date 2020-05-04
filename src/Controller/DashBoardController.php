@@ -9,7 +9,7 @@ use Slim\Psr7\Response;
 
 final class DashBoardController
 {
-    public const DEFAULT_PICTURE = 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg';
+    public const DEFAULT_PICTURE = 'default.jpg';
 
     private ContainerInterface $container;
 
