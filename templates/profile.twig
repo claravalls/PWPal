@@ -3,8 +3,18 @@
 {% block title %}Edit Profile{% endblock %}
 
 {% block content %}
+<div class="header_buttons">
+    <div class="title">
+        <h1>Edit Profile</h1>
+    </div>
 
-    <h1>Edit Profile</h1>
+    <div class="buttons">
+        <form action="/" method="GET" accept-charset="utf-8">
+            <button class="white_button" type="submit">Home</button>
+        </form>
+    </div>
+</div>
+
     <form enctype="multipart/form-data" action="/profile" method="POST" accept-charset="utf-8">
         <table>
             <tr>
@@ -40,7 +50,7 @@
         </ol>
     {% endif %}
         <br>
-        <button type="submit">Edit</button>
+        <button type="submit">Save</button>
     </form>
     <form action="/profile/security" method="GET" accept-charset="utf-8">
         <button type="submit">Change Password</button>

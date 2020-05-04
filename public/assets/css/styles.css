@@ -54,6 +54,10 @@ button:hover{
 	background-color: #003f69;
 	color: #fff;
 }
+
+p{
+	text-align: center;
+}
 .error{
 	color: red;
 }
@@ -93,11 +97,20 @@ button:hover{
 .buttons{
 	grid-area: buttons;
 	align-self: center;
+	color: white;
 }
 
 .white_button{
 	background-color: #ffffff;
 	color: #0070ba;
 	margin: 3%;
+}
+
+.profile-pic{
+	width:70px;
+	height:70px;
+	border: solid white 2px;
+	border-radius: 35px;
+	padding: 0;
 }
 

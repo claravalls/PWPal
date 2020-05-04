@@ -21,7 +21,7 @@
             {% else %}
                 <p>{{ email }}</p>
                 <form action="/profile" method="GET" accept-charset="utf-8">
-                    <input type="image" src="{{ photo }}" alt="Profile picture" height="80" width="80">
+                    <input type="image" class="profile-pic" src="{{ photo }}" alt="Profile picture">
                 </form>
             {% endif %}
         </div>

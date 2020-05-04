@@ -1,13 +1,26 @@
 {% extends "base.twig" %}
 
 {% block title %}Bank account{% endblock %}
-{% block header %}Bank account{% endblock %}
+
+
 
 {% block content %}
+    <div class="header_buttons">
+        <div class="title">
+            <h1>Bank account</h1>
+        </div>
+
+        <div class="buttons">
+            <form action="/" method="GET" accept-charset="utf-8">
+                <button class="white_button" type="submit">Home</button>
+            </form>
+        </div>
+    </div>
     {% if bank is empty %}
-        <h1>Add bank account</h1>
         <form action="/account/bank-account" method="POST" accept-charset="utf-8">
+            <br>
             <input type="text" name="owner" value="{{ owner }}" placeholder="Enter the owner name" required>
+            <br>
             <input  type="text" name="iban" placeholder="Enter a valid IBAN" value="{{ iban }}" required>
 
             <br>
@@ -20,7 +33,6 @@
             <button type="submit">Add bank account</button>
         </form>
     {% else %}
-        <h1>Bank account</h1>
         <p>IBAN: {{iban}}</p>
         <form action="/account/bank-account/load" method="POST" accept-charset="utf-8">
             Add money to wallet <input type="number" name="amount" value="0" required>
@@ -32,9 +44,7 @@
     {% if load_message is not empty %}
         <p>{{ load_message }}</p>
     {% endif %}
-    <form action="/" method="GET" accept-charset="utf-8">
-        <button type="submit">Home</button>
-    </form>
+
 {% endblock %}
 
 
