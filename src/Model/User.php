@@ -134,4 +134,16 @@ CREATE TABLE `bank` (
         CONSTRAINT `bank_ibfk_1` FOREIGN KEY (`user_id`)
         REFERENCES `user` (`id`) ON DELETE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `transaction` (
+        `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+        `id_sender` INT(11) UNSIGNED NOT NULL,
+        `id_receiver` INT(11) UNSIGNED NOT NULL,
+        `quantity` INT(11) UNSIGNED NOT NULL,
+        PRIMARY KEY (`id`),
+        CONSTRAINT `id_sender,` FOREIGN KEY (`id_sender`)
+        REFERENCES `user` (`id`) ON DELETE CASCADE,
+        CONSTRAINT `id_receiver` FOREIGN KEY (`id_receiver`)
+        REFERENCES `user` (`id`) ON DELETE CASCADE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
  */
