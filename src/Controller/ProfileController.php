@@ -3,6 +3,7 @@
 namespace SallePW\SlimApp\Controller;
 
 use DateTime;
+use Imagick;
 use Psr\Container\ContainerInterface;
 use SallePW\SlimApp\Model\User;
 use Slim\Psr7\Request;
@@ -191,8 +192,14 @@ final class ProfileController
         $path = basename("uploads/");
         $uploadfile = $path."/".basename($photo);
 
+        $imagick = new \Imagick($temp);
+        $imagick->cropImage(400, 400, 0, 0);
+        $imagick->chopImage(400, 400, 0, 0);
+        $imagick->writeImage($uploadfile);
+
         if(!empty($photo)) {
-            if (move_uploaded_file($temp, $uploadfile)) {
+            //if (move_uploaded_file($imagick->getImageBlob(), $uploadfile)) {
+            if($imagick->writeImage($uploadfile)){
                 $filesize = filesize($path . "/" . basename($photo));
                 $filesize = round($filesize / 1024, 2);
                 if ($filesize > 1048576) {
