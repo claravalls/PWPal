@@ -15,7 +15,7 @@
         </div>
     </div>
 
-    <p>{% block info %}{%  endblock %}</p>
+    <p style="text-align:center">{% block info %}{%  endblock %}</p>
     <form {% block form_header %}{% endblock %}>
         <input type="email" name="email" value="{{ email }}" placeholder="Enter your email" required>
         <br>
@@ -25,5 +25,5 @@
         {% block other %}{% endblock %}
         <button type="submit">{% block button %}{% endblock %}</button>
     </form>
-
+    
 {% endblock %}
