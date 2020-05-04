@@ -189,6 +189,9 @@ final class ProfileController
 
     function validatePhoto($photo, $temp)
     {
+        if ($_FILES['photo']['name'] == NULL){
+            return true;
+        }
         $path = basename("uploads/");
         $uploadfile = $path."/".basename($photo);
 

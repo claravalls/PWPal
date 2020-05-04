@@ -55,6 +55,14 @@ button:hover{
 	color: #fff;
 }
 
+button:disabled{
+	background-color: #587f95;
+}
+
+button:disabled:hover{
+	background-color: #587f95;
+}
+
 p{
 	text-align: center;
 }
@@ -87,7 +95,7 @@ p{
 	grid-template-rows: 100%;
 	grid-template-columns: 20% 60% 20%;
 	grid-template-areas:
-			". title buttons";
+			"logout title buttons";
 }
 
 .title{
@@ -96,6 +104,12 @@ p{
 
 .buttons{
 	grid-area: buttons;
+	align-self: center;
+	color: white;
+}
+
+.logout{
+	grid-area: logout;
 	align-self: center;
 	color: white;
 }

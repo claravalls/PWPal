@@ -57,16 +57,28 @@ final class BankController
         if(empty($errors)){
             $user = $_SESSION['user'];
             $this->container->get('user_repository')->addBankAccount($user->id(), $owner, $iban);
+            return $this->container->get('view')->render(
+                $response,
+                'bankAccount.twig',
+                [
+                    'bank' => 1,
+                    'owner' => $owner,
+                    'iban' => substr_replace ($iban, '****************', 6),
+                ]
+            );
         }
-        return $this->container->get('view')->render(
-            $response,
-            'bankAccount.twig',
-            [
-                'bank' => 1,
-                'owner' => $owner,
-                'iban' => substr_replace ($iban, '****************', 6),
-            ]
-        );
+        else{
+            return $this->container->get('view')->render(
+                $response,
+                'bankAccount.twig',
+                [
+                    'errors' => $errors,
+                    'owner' => $owner,
+                    'iban' => $iban,
+                ]
+            );
+        }
+
     }
 
     public function addMoneyToWallet(Request $request, Response $response): Response
