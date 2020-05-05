@@ -21,8 +21,10 @@ final class DashBoardController
     public function showDashBoard(Request $request, Response $response):Response
     {
         if (!isset($_SESSION['user'])){
-
-            header("Location: /sign-in");
+            echo "<script>
+            alert('Log in to access to your dashboard');
+            window.location.href='/sign-in';
+            </script>";
         }
         $user = $_SESSION['user'];
 

@@ -21,8 +21,10 @@ final class BankController
     public function showBankAccount (Request $request, Response $response): Response
     {
         if (!isset($_SESSION['user'])){
-
-            header("Location: /sign-in");
+            echo "<script>
+            alert('Log in to access to your bank account');
+            window.location.href='/sign-in';
+            </script>";
         }
         $user = $_SESSION['user'];
 
