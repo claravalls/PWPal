@@ -1,0 +1,56 @@
+<?php
+
+
+namespace SallePW\SlimApp\Model;
+
+
+final class TransactionList
+{
+    private int $id;
+    private $transactions = array();
+    private $sign = array();        //positive_trans or negative_trans
+
+    public function __construct(
+        int $id,
+        $transactions = array(),
+        $sign = array()
+
+    ){
+        $this->id = $id;
+        $this->transactions = $transactions;
+        $this->sign = $sign;
+
+    }
+
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    public function id(): int
+    {
+        return $this->id;
+    }
+
+    public function getTransaction(int $i): int
+    {
+        return $this->transactions[$i];
+    }
+
+    public function setTransaction(int $i, int $quantity): void
+    {
+        $this->transactions[$i] = $quantity;
+    }
+
+    public function getSign(int $i): String
+    {
+        return $this->sign[$i];
+    }
+
+    public function setSign(int $i, String $trans_sign): void
+    {
+        $this->sign[$i] = $trans_sign;
+    }
+
+}

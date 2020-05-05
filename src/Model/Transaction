@@ -7,20 +7,20 @@ namespace SallePW\SlimApp\Model;
 final class Transaction
 {
     private int $id;
-    private int $id_sender;
-    private int $id_receiver;
+    private String $email_sender;
+    private String $email_receiver;
     private int $quantity;
 
     public function __construct(
-        int $user_id,
-        int $id_sender,
-        int $id_receiver,
+        int $id,
+        String $email_sender,
+        String $email_receiver,
         int $quantity
 
     ){
-        $this->user_id = $user_id;
-        $this->id_sender = $id_sender;
-        $this->id_receiver = $id_receiver;
+        $this->id = $id;
+        $this->email_sender = $email_sender;
+        $this->email_receiver = $email_receiver;
         $this->quantity = $quantity;
 
     }
@@ -35,17 +35,14 @@ final class Transaction
     {
         return $this->id;
     }
-    public function user_id(): int
+
+    public function email_sender(): String
     {
-        return $this->user_id;
+        return $this->email_sender;
     }
-    public function id_sender(): int
+    public function email_receiver(): String
     {
-        return $this->id_sender;
-    }
-    public function id_receiver(): int
-    {
-        return $this->id_receiver;
+        return $this->email_receiver;
     }
     public function quantity(): int
     {
