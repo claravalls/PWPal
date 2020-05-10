@@ -147,7 +147,7 @@ final class BankController
                     $this->container->get('user_repository')->updateMoney($data['email'], ($newmoney + $data['amount']));
                     $user->setWallet($user->wallet() - $data['amount']);
                     $_SESSION['user'] = $user;
-                    $errors[] = "Transaction is finished successfully";
+                    $errors[] = "Transaction.php is finished successfully";
                     $errors[] = "Redirecting..";
                     $url = "/account/summary";
                 } else {
