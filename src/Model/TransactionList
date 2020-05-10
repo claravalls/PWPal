@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1); //Recommended. Canvia la manera com php fa comprovacions. Obligues a utilitzar els tipus definits, sense conversions.
 
 namespace SallePW\SlimApp\Model;
 
@@ -7,16 +8,14 @@ namespace SallePW\SlimApp\Model;
 final class TransactionList
 {
     private int $id;
-    private $transactions = array();
-    private $sign = array();        //positive_trans or negative_trans
+    private array $transactions;
+    private array $sign;        //positive_trans or negative_trans
 
     public function __construct(
-        int $id,
         $transactions = array(),
         $sign = array()
 
     ){
-        $this->id = $id;
         $this->transactions = $transactions;
         $this->sign = $sign;
 

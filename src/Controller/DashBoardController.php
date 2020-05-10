@@ -6,6 +6,7 @@ namespace SallePW\SlimApp\Controller;
 use Psr\Container\ContainerInterface;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
+use SallePW\SlimApp\Model\TransactionList;
 
 final class DashBoardController
 {
@@ -29,6 +30,9 @@ final class DashBoardController
         $bank_id = $this->container->get('user_repository')->findBankAccount($user->id());
         $path = basename("/public/uploads/");
 
+
+        $list = $this->container->get('user_repository')->latestTransactions($user->email());
+
         if($bank_id->id() >= 0){
             return $this->container->get('view')->render(
                 $response,
@@ -36,7 +40,17 @@ final class DashBoardController
                 [
                     'photo' => "../../".$path."/".$user->photo(),
                     'bank_account' => $bank_id,
-                    'wallet' => $user->wallet()
+                    'wallet' => $user->wallet(),
+                    'trans1' => $list->getTransaction(1),
+                    'trans2' => $list->getTransaction(2),
+                    'trans3' => $list->getTransaction(3),
+                    'trans4' => $list->getTransaction(4),
+                    'trans5' => $list->getTransaction(5),
+                    'sign1' => $list->getSign(1),
+                    'sign2' => $list->getSign(2),
+                    'sign3' => $list->getSign(3),
+                    'sign4' => $list->getSign(4),
+                    'sign5' => $list->getSign(5)
                 ]
             );
         }
@@ -45,7 +59,17 @@ final class DashBoardController
             'dash.twig',
             [
                 'photo' => "../../".$path."/".$user->photo(),
-                'wallet' => $user->wallet()
+                'wallet' => $user->wallet(),
+                'trans1' => $list->getTransaction(1),
+                'trans2' => $list->getTransaction(2),
+                'trans3' => $list->getTransaction(3),
+                'trans4' => $list->getTransaction(4),
+                'trans5' => $list->getTransaction(5),
+                'sign1' => $list->getSign(1),
+                'sign2' => $list->getSign(2),
+                'sign3' => $list->getSign(3),
+                'sign4' => $list->getSign(4),
+                'sign5' => $list->getSign(5)
             ]
         );
     }

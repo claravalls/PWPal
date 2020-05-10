@@ -140,6 +140,7 @@ final class BankController
             }else {
                 if ($exists == true) {
                     $this->container->get('user_repository')->updateMoney($user->email(), ($user->wallet() - $data['amount']));
+                    $this->container->get('user_repository')->newTransaction($user->email(), $data['email'], $data['amount']);
                     $newmoney = $this->container->get('user_repository')->getMoney($data['email']);
                     $this->container->get('user_repository')->updateMoney($data['email'], ($newmoney + $data['amount']));
                     $user->setWallet($user->wallet() - $data['amount']);

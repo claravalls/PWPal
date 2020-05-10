@@ -12,13 +12,11 @@ final class Transaction
     private int $quantity;
 
     public function __construct(
-        int $id,
         String $email_sender,
         String $email_receiver,
         int $quantity
 
     ){
-        $this->id = $id;
         $this->email_sender = $email_sender;
         $this->email_receiver = $email_receiver;
         $this->quantity = $quantity;

@@ -31,11 +31,14 @@
 
         <input class="currentBalance" id="cBalance" value="{{ wallet }} €" alt="Current balance" disabled>
 
-        <h3>Last transactions</h3>
-        <input list="transactions">
-        <datalist>
-            <option value="20" id="positive_trans"> //Primera transacció els 20 que et fiquen al loggejarte, nomes per veure que funciona
-        </datalist>
+        <h3>Latest transactions</h3>
+        <ul style="list-style-type:none;">
+            <li value={{ trans1 }} id={{ sign1 }}></li>
+            <li value={{ trans2 }} id={{ sign2 }}></li>
+            <li value={{ trans3 }} id={{ sign3 }}></li>
+            <li value={{ trans4 }} id={{ sign4 }}></li>
+            <li value={{ trans5 }} id={{ sign5 }}></li>
+        </ul>
     </form>
 
     <form action="/account/bank-account" method="GET" accept-charset="utf-8">

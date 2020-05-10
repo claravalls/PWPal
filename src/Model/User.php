@@ -140,10 +140,6 @@ CREATE TABLE `transaction` (
         `email_sender` VARCHAR(255) NOT NULL DEFAULT '',
         `email_receiver` VARCHAR(255) NOT NULL DEFAULT '',
         `quantity` INT(11) UNSIGNED NOT NULL,
-        PRIMARY KEY (`id`),
-        CONSTRAINT `email_sender,` FOREIGN KEY (`email_sender`)
-        REFERENCES `user` (`email`) ON DELETE CASCADE,
-        CONSTRAINT `email_receiver` FOREIGN KEY (`email_receiver`)
-        REFERENCES `user` (`email`) ON DELETE CASCADE
+        PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
  */
