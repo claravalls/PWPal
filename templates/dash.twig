@@ -44,22 +44,11 @@
     <form action="/account/bank-account" method="GET" accept-charset="utf-8">
         <button type="submit">Bank account</button>
     </form>
-
-    {% if bank_account is not empty %}
     <form action="/account/money/send" method="GET" accept-charset="utf-8">
         <button type="submit">Send money</button>
     </form>
     <form action="/account/money/request" method="GET" accept-charset="utf-8">
         <button type="submit">Request money</button>
     </form>
-    {% endif %}
-    {% if bank_account is empty %}
-        <p>To do some transactions get one bank account</p>
-        <form action="/account/money/send" method="GET" accept-charset="utf-8">
-            <button type="submit" disabled>Send money</button>
-        </form>
-        <form action="/account/money/request" method="GET" accept-charset="utf-8">
-            <button type="submit" disabled>Request money</button>
-        </form>
-    {% endif %}
+
 {% endblock %}

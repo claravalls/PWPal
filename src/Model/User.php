@@ -108,6 +108,7 @@ final class User
     {
         $this->wallet = $amount;
     }
+
 }
 
 /*
@@ -143,3 +144,4 @@ CREATE TABLE `transaction` (
         PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
  */
+
