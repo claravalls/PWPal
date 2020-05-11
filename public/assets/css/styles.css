@@ -70,12 +70,33 @@ p{
 	color: red;
 }
 
-#positive_trans{
-	color: green;
+.summaryDiv{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	align-content: center;
 }
 
-#negative_trans{
+.tr_list{
+	list-style-type:none;
+	display: flex;
+	flex-direction: column;
+	align-self: center;
+}
+.positive_trans{
+	height: 20px;
+	width: auto;
+	font-size: 18px;
+	color: green;
+	text-align: center;
+}
+
+.negative_trans{
+	height: 20px;
+	width: auto;
+	font-size: 18px;
 	color: red;
+	text-align: center;
 }
 
 .currentBalance{

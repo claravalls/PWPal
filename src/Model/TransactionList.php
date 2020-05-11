@@ -12,13 +12,12 @@ final class TransactionList
     private array $sign;        //positive_trans or negative_trans
 
     public function __construct(
-        $transactions = array(),
-        $sign = array()
+        $transactions = [1=>0, 2=>0, 3=> 0, 4=>0, 5=>0],
+        $sign = [1=>"positive_trans", 2=>"positive_trans", 3=> "positive_trans", 4=>"positive_trans", 5=>"positive_trans"]
 
     ){
         $this->transactions = $transactions;
         $this->sign = $sign;
-
     }
 
     public function setId(int $id): self

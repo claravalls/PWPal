@@ -267,8 +267,7 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $statement->execute();
     }
 
-
-    public function newTransaction(String $email_sender, String $email_receiver, int $quantity): void
+    public function newTransaction(String $email_sender, String $email_receiver, Int $quantity): void
     {
         $query = <<<'QUERY'
         INSERT INTO transaction (email_sender, email_receiver, quantity)
@@ -276,7 +275,7 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
 QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $statement = $this->database->connection()->prepare($query);
 
-        $statement->bindParam('email_sender', $email_sender, PDO::PARAM_INT);
+        $statement->bindParam('email_sender', $email_sender, PDO::PARAM_STR);
         $statement->bindParam('email_receiver', $email_receiver, PDO::PARAM_STR);
         $statement->bindParam('quantity', $quantity, PDO::PARAM_STR);
         $statement->execute();
@@ -291,14 +290,14 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $statement = $this->database->connection()->prepare($query);
 
         $statement->bindParam('email', $email, PDO::PARAM_STR);
+        $statement->bindParam('quantity', $quantity, PDO::PARAM_INT);
         $statement->execute();
 
         $result = $statement->fetchAll();
         $list = new TransactionList();
         if (sizeof($result)) {
-
-            for ($i = 0; $i < 5; $i++){
-                $list->setTransaction($i, $result[$i]['quantity']);
+            for ($i = 0; $i < sizeof($result); $i++){
+                $list->setTransaction($i, (int)$result[$i]['quantity']);
                 if ($result[$i]['email_sender'] == $email){
                     $list->setSign($i, "negative_trans");
                 }else{

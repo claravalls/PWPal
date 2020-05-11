@@ -27,18 +27,20 @@
     </form>
 
     <form action="/account/summary" method="GET" accept-charset="utf-8">
-        <h3>Current balance</h3>
+        <div class="summaryDiv">
+            <h3>Current balance</h3>
 
-        <input class="currentBalance" id="cBalance" value="{{ wallet }} €" alt="Current balance" disabled>
+            <input class="currentBalance" value="{{ wallet }} €" alt="Current balance" disabled>
 
-        <h3>Latest transactions</h3>
-        <ul style="list-style-type:none;">
-            <li value={{ trans1 }} id={{ sign1 }}></li>
-            <li value={{ trans2 }} id={{ sign2 }}></li>
-            <li value={{ trans3 }} id={{ sign3 }}></li>
-            <li value={{ trans4 }} id={{ sign4 }}></li>
-            <li value={{ trans5 }} id={{ sign5 }}></li>
-        </ul>
+            <h3>Latest transactions</h3>
+            <ul class="tr_list">
+                <input value="{{ trans1 }}" class="{{ sign1 }}" style="background-color: rgb(240, 240, 240);">
+                <input value="{{ trans2 }}" class="{{ sign2 }}" style="background-color: rgb(220, 220, 220);">
+                <input value="{{ trans3 }}" class="{{ sign3 }}" style="background-color: rgb(240, 240, 240);">
+                <input value="{{ trans4 }}" class="{{ sign4 }}" style="background-color: rgb(220, 220, 220);">
+                <input value="{{ trans5 }}" class="{{ sign5 }}" style="background-color: rgb(240, 240, 240);">
+            </ul>
+        </div>
     </form>
 
     <form action="/account/bank-account" method="GET" accept-charset="utf-8">

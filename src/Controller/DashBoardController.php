@@ -32,7 +32,6 @@ final class DashBoardController
         $bank_id = $this->container->get('user_repository')->findBankAccount($user->id());
         $path = basename("/public/uploads/");
 
-
         $list = $this->container->get('user_repository')->latestTransactions($user->email());
 
         if($bank_id->id() >= 0){
