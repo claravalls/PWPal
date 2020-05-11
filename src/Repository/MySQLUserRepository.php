@@ -9,7 +9,6 @@ use PDO;
 use SallePW\SlimApp\Controller\DashBoardController;
 use SallePW\SlimApp\Model\Bank;
 use SallePW\SlimApp\Model\User;
-use SallePW\SlimApp\Model\Transaction;
 use SallePW\SlimApp\Model\TransactionList;
 use SallePW\SlimApp\Model\UserRepository;
 
@@ -284,7 +283,7 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
     public function latestTransactions(String $email): TransactionList
     {
         $query = <<<'QUERY'
-        SELECT email_sender, quantity FROM transaction WHERE (email_sender=:email OR email_receiver=:email)
+        SELECT email_sender, email_receiver, quantity FROM transaction WHERE (email_sender=:email OR email_receiver=:email)
         ORDER BY id DESC LIMIT 5
 QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $statement = $this->database->connection()->prepare($query);
@@ -297,11 +296,13 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $list = new TransactionList();
         if (sizeof($result)) {
             for ($i = 0; $i < sizeof($result); $i++){
-                $list->setTransaction($i, (int)$result[$i]['quantity']);
+                $list->setTransaction($i+1, (int)$result[$i]['quantity']);
                 if ($result[$i]['email_sender'] == $email){
-                    $list->setSign($i, "negative_trans");
+                    $list->setSign($i+1, "negative_trans");
+                    $list->setOtherUser($i+1, (String)$result[$i]['email_receiver']);
                 }else{
-                    $list->setSign($i, "positive_trans");
+                    $list->setSign($i+1, "positive_trans");
+                    $list->setOtherUser($i+1, (String)$result[$i]['email_sender']);
                 }
             }
         }

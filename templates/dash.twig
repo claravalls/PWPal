@@ -34,11 +34,30 @@
 
             <h3>Latest transactions</h3>
             <ul class="tr_list">
-                <input value="{{ trans1 }}" class="{{ sign1 }}" style="background-color: rgb(240, 240, 240);">
-                <input value="{{ trans2 }}" class="{{ sign2 }}" style="background-color: rgb(220, 220, 220);">
-                <input value="{{ trans3 }}" class="{{ sign3 }}" style="background-color: rgb(240, 240, 240);">
-                <input value="{{ trans4 }}" class="{{ sign4 }}" style="background-color: rgb(220, 220, 220);">
-                <input value="{{ trans5 }}" class="{{ sign5 }}" style="background-color: rgb(240, 240, 240);">
+                <div class="tr_list_item1">
+                    <input value="{{ other1 }}" class="trans_email">
+                    <input value="{{ trans1 }}" class="{{ sign1 }}" >
+                </div>
+
+                <div class="tr_list_item2">
+                    <input value="{{ other2 }}" class="trans_email">
+                    <input value="{{ trans2 }}" class="{{ sign2 }}" >
+                </div>
+
+                <div class="tr_list_item1">
+                    <input value="{{ other3 }}" class="trans_email">
+                    <input value="{{ trans3 }}" class="{{ sign3 }}" >
+                </div>
+
+                <div class="tr_list_item2">
+                    <input value="{{ other4 }}" class="trans_email">
+                    <input value="{{ trans4 }}" class="{{ sign4 }}" >
+                </div>
+                <div class="tr_list_item1">
+                    <input value="{{ other5 }}" class="trans_email">
+                    <input value="{{ trans5 }}" class="{{ sign5 }}" >
+                </div>
+
             </ul>
         </div>
     </form>
