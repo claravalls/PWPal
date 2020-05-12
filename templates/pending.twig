@@ -15,21 +15,26 @@
         </div>
     </div>
     <br>
-    <table class="table_pending">
-        <tr class="tr_pen">
-            <td><label for="sender">Sender</label></td>
-            <td><label for="quantity">Quantity</label></td>
-            <td></td>
-        </tr>
-        {% for item in pending %}
+
+    {% if pending is not empty %}
+        <table class="table_pending">
             <tr class="tr_pen">
-                <td><p>{{ item.email_sender }}</p></td>
-                <td><p for="quantity">{{ item.quantity }} €</p></td>
-                <form action="/account/money/requests/{{ item.id }}/accept" method="POST" accept-charset="utf-8">
-                    <td><button class="small_button" type="submit">Pay</button></td>
-                </form>
+                <td><label for="sender">Sender</label></td>
+                <td><label for="quantity">Quantity</label></td>
+                <td></td>
             </tr>
-        {% endfor %}
-    </table>
+            {% for item in pending %}
+                <tr class="tr_pen">
+                    <td><p>{{ item.email_sender }}</p></td>
+                    <td><p for="quantity">{{ item.quantity }} €</p></td>
+                    <form action="/account/money/requests/{{ item.id }}/accept" method="POST" accept-charset="utf-8">
+                        <td><button class="small_button" type="submit">Pay</button></td>
+                    </form>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No pending requests</p>
+    {% endif %}
 
 {% endblock %}
