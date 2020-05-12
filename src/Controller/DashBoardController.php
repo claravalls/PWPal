@@ -28,6 +28,7 @@ final class DashBoardController
             </script>";
         }
         $user = $_SESSION['user'];
+        $user = $this->container->get('user_repository')->search($user->email(), "email");
 
         $bank_id = $this->container->get('user_repository')->findBankAccount($user->id());
         $path = basename("/public/uploads/");

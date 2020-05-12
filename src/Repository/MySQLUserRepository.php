@@ -255,7 +255,7 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         return false;
     }
 
-    public function updateMoney(String $email, Int $amount): void
+    public function updateMoney(String $email, float $amount): void
     {
         $query = <<<'QUERY'
         UPDATE user set wallet=:wallet WHERE email=:email

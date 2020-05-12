@@ -26,7 +26,7 @@ final class BankController
             </script>";
         }
         $user = $_SESSION['user'];
-
+        $user = $this->container->get('user_repository')->search($user->email(), "email");
         $bank = $this->container->get('user_repository')->findBankAccount($user->id());
         if ($bank->id() > 0){
             return $this->container->get('view')->render(
@@ -57,6 +57,7 @@ final class BankController
 
         if(empty($errors)){
             $user = $_SESSION['user'];
+            $user = $this->container->get('user_repository')->search($user->email(), "email");
             $this->container->get('user_repository')->addBankAccount($user->id(), $owner, $iban);
             return $this->container->get('view')->render(
                 $response,
@@ -87,10 +88,10 @@ final class BankController
         $amount = (float)$data['amount'] ?? '';
 
         $user = $_SESSION['user'];
+        $user = $this->container->get('user_repository')->search($user->email(), "email");
         $bank = $this->container->get('user_repository')->findBankAccount($user->id());
         if($amount > 0.0){
             $this->container->get('user_repository')->addMoneyToWallet($user->id(), $amount + $user->wallet());
-            $this->container->get('user_repository')->newTransaction($user->email(), $user->email(), $data['amount']);
             $message = 'Money added successfully to wallet';
             $_SESSION['user'] = $this->container->get('user_repository')->search($user->email(), "email");
         }
@@ -133,6 +134,7 @@ final class BankController
             </script>";
         }
         $user = $_SESSION['user'];
+        $user = $this->container->get('user_repository')->search($user->email(), "email");
         if(empty($data['amount']))
         {
             $data['amount'] = 0;
@@ -198,6 +200,7 @@ final class BankController
             </script>";
         }
         $user = $_SESSION['user'];
+        $user = $this->container->get('user_repository')->search($user->email(), "email");
         $errors = $this->isValid($data['email'] ?? "", $data['amount']);
         if(empty($errors)) {
             $exists = $this->container->get('user_repository')->getUserToSend($data['email']);
@@ -254,8 +257,8 @@ final class BankController
 
     public function showAllTransactions (Request $request, Response $response): Response
     {
-         $user = $_SESSION['user'];
-
+        $user = $_SESSION['user'];
+        $user = $this->container->get('user_repository')->search($user->email(), "email");
         $bank = $this->container->get('user_repository')->findBankAccount($user->id());
         if ($bank->id() > 0) {
             return $this->container->get('view')->render(
