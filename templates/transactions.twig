@@ -1,0 +1,40 @@
+{% extends "base.twig" %}
+
+{% block title %}PwPay - Transactions{% endblock %}
+
+{% block content %}
+
+    <div class="header_buttons">
+        <div class="title">
+            <h1>Account Transactions</h1>
+        </div>
+
+        <div class="buttons">
+            <form action="/" method="GET" accept-charset="utf-8">
+                <button class="white_button" type="submit">Home</button>
+            </form>
+        </div>
+    </div>
+
+    <form action="/account/transactions" method="GET" accept-charset="utf-8">
+        {% if url is not empty %}
+            <meta http-equiv="refresh" content="2;url={{ url }}">
+        {% endif %}
+        <h3>Current balance</h3>
+
+        <input class="currentBalance" value="{{ wallet }} €" alt="Current balance" disabled>
+
+        <h3>IBAN: {{iban}}</h3>
+        <br>
+
+        {#list of all transactions#}
+        {% if errors is not empty %}
+            <ol>
+                {% for error in errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+            </ol>
+        {% endif %}
+        <br>
+    </form>
+{% endblock %}

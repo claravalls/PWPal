@@ -92,6 +92,7 @@ final class BankController
         $bank = $this->container->get('user_repository')->findBankAccount($user->id());
         if($amount > 0){
             $this->container->get('user_repository')->addMoneyToWallet($user->id(), $amount + $user->wallet());
+            $this->container->get('user_repository')->newTransaction($user->email(), $user->email(), $data['amount']);
             $message = 'Money added successfully to wallet';
         }
         else{
@@ -211,5 +212,38 @@ final class BankController
         }
         return false;
 
+    }
+
+    public function showAllTransactions (Request $request, Response $response): Response
+    {
+        $data = $request->getParsedBody();
+
+        if (!isset($_SESSION['user'])){
+            echo "<script>
+            alert('Log in to access to your bank account');
+            window.location.href='/sign-in';
+            </script>";
+        }
+
+        $user = $_SESSION['user'];
+
+        $bank = $this->container->get('user_repository')->findBankAccount($user->id());
+        if ($bank->id() > 0) {
+            return $this->container->get('view')->render(
+                $response,
+                'transactions.twig',
+                [
+                    'iban' => substr_replace ($bank->iban(), '****************', 6),
+                    'bank' => $bank,
+                    'wallet' => $user->wallet()
+                ]
+            );
+        }
+        return $this->container->get('view')->render(
+            $response,
+            'transactions.twig',
+            [
+            ]
+        );
     }
 }

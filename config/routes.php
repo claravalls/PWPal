@@ -99,3 +99,8 @@ $app->post(
     '/account/money/send',
     BankController::class . ":sendMoney"
 )->setName('profile');
+
+$app->get(
+    '/account/transactions',
+    BankController::class . ":showAllTransactions"
+)->setName('profile');
