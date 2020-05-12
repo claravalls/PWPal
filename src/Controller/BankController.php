@@ -1,6 +1,5 @@
 <?php
 
-
 namespace SallePW\SlimApp\Controller;
 
 use Iban\Validation\Validator;
@@ -80,7 +79,6 @@ final class BankController
                 ]
             );
         }
-
     }
 
     public function addMoneyToWallet(Request $request, Response $response): Response
@@ -188,6 +186,42 @@ final class BankController
         }
 
         return $errors;
+    }
+
+    public function requestMoney(Request $request, Response $response): Response{
+        $data = $request->getParsedBody();
+
+        if (!isset($_SESSION['user'])){
+            echo "<script>
+            alert('Log in to access to your bank account');
+            window.location.href='/sign-in';
+            </script>";
+        }
+        $user = $_SESSION['user'];
+        $errors = $this->isValid($data['email'] ?? "", $data['amount']);
+        if(empty($errors)) {
+            $exists = $this->container->get('user_repository')->getUserToSend($data['email']);
+
+            if ($exists == true) {
+                $this->container->get('user_repository')->newRequest($user->email(), $data['email'], $data['amount']);
+                $errors[] = "Request is finished successfully";
+                $errors[] = "Redirecting..";
+                $url = "/account/summary";
+            } else {
+                $errors[] = "The user email don't exist or don't have the account activated";
+            }
+        }
+
+        return $this->container->get('view')->render(
+            $response,
+            'requestMoney.twig',
+            [
+                'errors' => $errors,
+                'email' => $data['email'],
+                'amount' => $data['amount'],
+                'url' => $url ?? ''
+            ]
+        );
     }
 
     public function validateIban(string $iban)

@@ -360,7 +360,7 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
 
     public function findPendingRequests(string $email){
         $query = <<<'QUERY'
-        SELECT email_sender, quantity FROM requests WHERE (email_receiver=:email AND paid = 0)
+        SELECT id, email_sender, quantity FROM requests WHERE (email_receiver=:email AND paid = 0)
 QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $statement = $this->database->connection()->prepare($query);
 
@@ -371,7 +371,7 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         if (sizeof($result)) {
             $pending = array();
             foreach ($result as $item) {
-                array_push($pending, new Requests($item->email_sender(), $item->quantity(), false));
+                array_push($pending, new Requests((int)$item['id'], $item['email_sender'], (float)$item['quantity'], false));
             }
             return $pending;
         }

@@ -12,10 +12,12 @@ final class Requests
     private bool $paid;
 
     public function __construct(
+        int $id,
         string $email_sender,
         float $quantity,
         bool $paid
     ){
+        $this->id = $id;
         $this->email_sender = $email_sender;
         $this->quantity = $quantity;
         $this->paid = $paid;

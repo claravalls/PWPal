@@ -113,7 +113,7 @@ $app->get(
 
 $app->post(
     '/account/money/requests',
-    RequestsController::class . ":requestMoney"
+    BankController::class . ":requestMoney"
 )->setName('requestMoney');
 
 $app->get(
