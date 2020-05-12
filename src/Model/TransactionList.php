@@ -10,7 +10,7 @@ final class TransactionList
     private int $id;
     private array $transactions;
     private array $sign;            //positive_trans || negative_trans || neutral_trans (default)
-    private array $other_user;      //email of the user who sent/receive transaction
+    private array $other_user;      //email of the user who sent/receive transaction, or Income for load money
 
     public function __construct(
         $transactions = [1=>0.0, 2=>0.0, 3=> 0.0, 4=>0.0, 5=>0.0],
@@ -22,6 +22,8 @@ final class TransactionList
         $this->sign = $sign;
         $this->other_user = $other_user;
     }
+
+
 
     public function setId(int $id): self
     {

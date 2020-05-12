@@ -101,6 +101,11 @@ $app->post(
 )->setName('sendMoney');
 
 $app->get(
+    '/account/transactions',
+    BankController::class . ":showAllTransactions"
+)->setName('bank');
+
+$app->get(
     '/account/money/requests',
     BankController::class . ":showRequestMoneyPage"
 )->setName('pageRequest');
