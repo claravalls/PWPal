@@ -111,8 +111,10 @@ final class BankController
     public function showSendMoneyPage(Request $request, Response $response): Response
     {
         if (!isset($_SESSION['user'])){
-
-            header("Location: /sign-in");
+            echo "<script>
+            alert('Log in to access to your bank account');
+            window.location.href='/sign-in';
+            </script>";
         }
         return $this->container->get('view')->render(
             $response,
@@ -126,8 +128,10 @@ final class BankController
         $data = $request->getParsedBody();
 
         if (!isset($_SESSION['user'])){
-
-            header("Location: /sign-in");
+            echo "<script>
+            alert('Log in to access to your bank account');
+            window.location.href='/sign-in';
+            </script>";
         }
         $user = $_SESSION['user'];
         if(empty($data['amount']))
@@ -211,7 +215,22 @@ final class BankController
             return true;
         }
         return false;
+    }
 
+    public function showRequestMoneyPage (Request $request, Response $response): Response
+    {
+        if (!isset($_SESSION['user'])){
+            echo "<script>
+            alert('Log in to access to your bank account');
+            window.location.href='/sign-in';
+            </script>";
+        }
+        return $this->container->get('view')->render(
+            $response,
+            'requestMoney.twig',
+            [
+            ]
+        );
     }
 
     public function showAllTransactions (Request $request, Response $response): Response
