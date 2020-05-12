@@ -7,7 +7,7 @@ CREATE TABLE `user` (
         `updated_at` DATETIME NOT NULL,
         `photo` VARCHAR(255),
         `token` VARCHAR(255),
-        `wallet` INT(11) UNSIGNED NOT NULL,
+        `wallet` FLOAT(8,2),
         `activated` BOOLEAN NOT NULL,
         PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -26,6 +26,6 @@ CREATE TABLE `transaction` (
         `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
         `email_sender` VARCHAR(255) NOT NULL DEFAULT '',
         `email_receiver` VARCHAR(255) NOT NULL DEFAULT '',
-        `quantity` INT(11) UNSIGNED NOT NULL,
+        `quantity` FLOAT(8,2) UNSIGNED NOT NULL,
         PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -86,13 +86,14 @@ final class BankController
     public function addMoneyToWallet(Request $request, Response $response): Response
     {
         $data = $request->getParsedBody();
-        $amount = $data['amount'] ?? '';
+        $amount = (float)$data['amount'] ?? '';
 
         $user = $_SESSION['user'];
         $bank = $this->container->get('user_repository')->findBankAccount($user->id());
-        if($amount > 0){
+        if($amount > 0.0){
             $this->container->get('user_repository')->addMoneyToWallet($user->id(), $amount + $user->wallet());
             $message = 'Money added successfully to wallet';
+            $_SESSION['user'] = $this->container->get('user_repository')->search($user->email(), "email");
         }
         else{
             $message = 'This amount is not valid';
@@ -141,7 +142,7 @@ final class BankController
         if(empty($errors)) {
             $exists = $this->container->get('user_repository')->getUserToSend($data['email']);
 
-            if($data['amount'] > $user->wallet()) {
+            if((float)$data['amount'] > $user->wallet()) {
                 $errors[] = "Insuficient money for the transaction";
             }else {
                 if ($exists == true) {
@@ -149,7 +150,7 @@ final class BankController
                     $this->container->get('user_repository')->newTransaction($user->email(), $data['email'], $data['amount']);
                     $newmoney = $this->container->get('user_repository')->getMoney($data['email']);
                     $this->container->get('user_repository')->updateMoney($data['email'], ($newmoney + $data['amount']));
-                    $user->setWallet($user->wallet() - $data['amount']);
+                    $user->setWallet($user->wallet() - (float)$data['amount']);
                     $_SESSION['user'] = $user;
                     $errors[] = "Transaction is finished successfully";
                     $errors[] = "Redirecting..";
@@ -185,7 +186,7 @@ final class BankController
         return $errors;
     }
 
-    function isValid(?string $email, ?int $number)
+    function isValid(?string $email, ?float $number)
     {
         $errors = [];
 
@@ -194,7 +195,7 @@ final class BankController
         }
 
         if (is_numeric($number)) {
-            if($number <= 0)
+            if($number <= 0.0)
                 $errors[] = sprintf('The amount is not valid, it must be positive and valid decimal number');
         }
 
@@ -228,6 +229,49 @@ final class BankController
             $response,
             'requestMoney.twig',
             [
+            ]
+        );
+    }
+
+    public function requestMoney(Request $request, Response $response): Response{
+
+        $data = $request->getParsedBody();
+
+        if (!isset($_SESSION['user'])){
+            echo "<script>
+            alert('Log in to access to your bank account');
+            window.location.href='/sign-in';
+            </script>";
+        }
+        $user = $_SESSION['user'];
+        $errors = $this->isValid($data['email'] ?? "", $data['amount']);
+        if(empty($errors)) {
+            $exists = $this->container->get('user_repository')->getUserToSend($data['email']);
+
+            if ($exists == true) {
+                //$this->container->get('user_repository')->updateMoney($user->email(), ($user->wallet() - $data['amount']));
+                //$this->container->get('user_repository')->newTransaction($user->email(), $data['email'], $data['amount']);
+                //newmoney = $this->container->get('user_repository')->getMoney($data['email']);
+                //$this->container->get('user_repository')->updateMoney($data['email'], ($newmoney + $data['amount']));
+                //$user->setWallet($user->wallet() - $data['amount']);
+                //$_SESSION['user'] = $user;
+                //$errors[] = "Transaction is finished successfully";
+                $errors[] = "Redirecting..";
+                $url = "/account/summary";
+            } else {
+                $errors[] = "The user email don't exist or don't have the account activated";
+            }
+
+        }
+
+        return $this->container->get('view')->render(
+            $response,
+            'requestMoney.twig',
+            [
+                'errors' => $errors,
+                'email' => $data['email'],
+                'amount' => $data['amount'],
+                'url' => $url ?? ''
             ]
         );
     }

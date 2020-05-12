@@ -90,7 +90,7 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
                 $created,
                 $updated,
                 $result[0]['photo'],
-                (int)$result[0]['wallet'],
+                (float)$result[0]['wallet'],
                 $result[0]['token'],
                 (bool)$result[0]['activated']
             );
@@ -105,7 +105,7 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
             new DateTime(),
             new DateTime(),
             "",
-            0,
+            0.0,
             "",
             false
         );
@@ -117,7 +117,7 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
     public function activateUser(String $token): void
     {
         $query = <<<'QUERY'
-        UPDATE user set activated = 1, wallet = 20 WHERE token=:token
+        UPDATE user set activated = 1, wallet = 20.0 WHERE token=:token
 QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $statement = $this->database->connection()->prepare($query);
 
@@ -171,7 +171,7 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $statement->execute();
     }
 
-    public function addMoneyToWallet(int $user_id, int $money){
+    public function addMoneyToWallet(int $user_id, float $money){
         $query = <<<'QUERY'
         UPDATE user set wallet=:wallet WHERE id=:id
 QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
@@ -219,7 +219,7 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $statement->execute();
     }
 
-    public function getMoney(String $email): int
+    public function getMoney(String $email): float
     {
         $query = <<<'QUERY'
         SELECT * FROM user WHERE email=:email
@@ -232,7 +232,7 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $result = $statement->fetchAll();
 
         if (sizeof($result)) {
-            return (int)$result[0]['wallet'];
+            return (float)$result[0]['wallet'];
         }
     }
 
@@ -261,12 +261,12 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
 QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $statement = $this->database->connection()->prepare($query);
 
-        $statement->bindParam('wallet', $amount, PDO::PARAM_INT);
+        $statement->bindParam('wallet', $amount, PDO::PARAM_STR);
         $statement->bindParam('email', $email, PDO::PARAM_STR);
         $statement->execute();
     }
 
-    public function newTransaction(String $email_sender, String $email_receiver, Int $quantity): void
+    public function newTransaction(String $email_sender, String $email_receiver, float $quantity): void
     {
         $query = <<<'QUERY'
         INSERT INTO transaction (email_sender, email_receiver, quantity)
@@ -296,7 +296,7 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $list = new TransactionList();
         if (sizeof($result)) {
             for ($i = 0; $i < sizeof($result); $i++){
-                $list->setTransaction($i+1, (int)$result[$i]['quantity']);
+                $list->setTransaction($i+1, (float)$result[$i]['quantity']);
                 if ($result[$i]['email_sender'] == $email){
                     $list->setSign($i+1, "negative_trans");
                     $list->setOtherUser($i+1, (String)$result[$i]['email_receiver']);

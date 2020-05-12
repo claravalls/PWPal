@@ -9,12 +9,12 @@ final class Transaction
     private int $id;
     private String $email_sender;
     private String $email_receiver;
-    private int $quantity;
+    private float $quantity;
 
     public function __construct(
         String $email_sender,
         String $email_receiver,
-        int $quantity
+        float $quantity
 
     ){
         $this->email_sender = $email_sender;
@@ -42,7 +42,7 @@ final class Transaction
     {
         return $this->email_receiver;
     }
-    public function quantity(): int
+    public function quantity(): float
     {
         return $this->quantity;
     }

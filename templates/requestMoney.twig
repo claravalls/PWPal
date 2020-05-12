@@ -27,7 +27,7 @@
             </tr>
             <tr>
                 <td><label for="amount">Amount </label></td>
-                <td><input type="number" id="number" name="amount" placeholder="€" value="{{ amount }}" ></td>
+                <td><input type="number" step=".01" id="number" name="amount" placeholder="€" value="{{ amount }}" ></td>
             </tr>
         </table>
         {% if errors is not empty %}

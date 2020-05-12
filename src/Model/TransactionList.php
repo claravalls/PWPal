@@ -13,7 +13,7 @@ final class TransactionList
     private array $other_user;      //email of the user who sent/receive transaction
 
     public function __construct(
-        $transactions = [1=>0, 2=>0, 3=> 0, 4=>0, 5=>0],
+        $transactions = [1=>0.0, 2=>0.0, 3=> 0.0, 4=>0.0, 5=>0.0],
         $sign = [1=>"neutral_trans", 2=>"neutral_trans", 3=> "neutral_trans", 4=>"neutral_trans", 5=>"neutral_trans"],
         $other_user = [1=>"", 2=>"", 3=> "", 4=>"", 5=>""]
 
@@ -34,12 +34,12 @@ final class TransactionList
         return $this->id;
     }
 
-    public function getTransaction(int $i): int
+    public function getTransaction(int $i): float
     {
         return $this->transactions[$i];
     }
 
-    public function setTransaction(int $i, int $quantity): void
+    public function setTransaction(int $i, float $quantity): void
     {
         $this->transactions[$i] = $quantity;
     }

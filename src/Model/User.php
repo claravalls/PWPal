@@ -16,7 +16,7 @@ final class User
     private DateTime $createdAt;
     private DateTime $updatedAt;
     private string $photo;
-    private int $wallet;
+    private float $wallet;
     private string $token;
     private bool $active;
 
@@ -28,7 +28,7 @@ final class User
         DateTime $createdAt,
         DateTime $updatedAt,
         string $photo,
-        int $wallet,
+        float $wallet,
         string $token,
         bool $active
     ) {
@@ -99,7 +99,7 @@ final class User
         return $this->token;
     }
 
-    public function wallet(): int
+    public function wallet(): float
     {
         return $this->wallet;
     }
