@@ -5,6 +5,7 @@ use SallePW\SlimApp\Controller\DashBoardController;
 use \SallePW\SlimApp\Controller\HomeController;
 use SallePW\SlimApp\Controller\PostSignInController;
 use SallePW\SlimApp\Controller\ProfileController;
+use SallePW\SlimApp\Controller\RequestsController;
 use SallePW\SlimApp\Controller\SignInController;
 use SallePW\SlimApp\Controller\SignUpController;
 use SallePW\SlimApp\Controller\ValidateController;
@@ -107,10 +108,15 @@ $app->get(
 
 $app->get(
     '/account/money/requests',
-    BankController::class . ":showRequestMoneyPage"
+    RequestsController::class . ":showRequestMoneyPage"
 )->setName('pageRequest');
 
 $app->post(
     '/account/money/requests',
-    BankController::class . ":requestMoney"
+    RequestsController::class . ":requestMoney"
 )->setName('requestMoney');
+
+$app->get(
+    '/account/money/requests/pending',
+    RequestsController::class . ":showPendingRequestsPage"
+)->setName('pendingRequests');

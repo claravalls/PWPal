@@ -8,6 +8,7 @@ use DateTime;
 use PDO;
 use SallePW\SlimApp\Controller\DashBoardController;
 use SallePW\SlimApp\Model\Bank;
+use SallePW\SlimApp\Model\Requests;
 use SallePW\SlimApp\Model\User;
 use SallePW\SlimApp\Model\TransactionList;
 use SallePW\SlimApp\Model\UserRepository;
@@ -310,8 +311,6 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         return $list;
     }
 
-
-
     public function showAllTransactions(String $email): TransactionList
     {
         $query = <<<'QUERY'
@@ -343,5 +342,39 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         }
 
         return $list;
+    }
+
+    public function newRequest (String $email_sender, String $email_receiver, float $quantity): void
+    {
+        $query = <<<'QUERY'
+        INSERT INTO requests (email_sender, email_receiver, quantity)
+        VALUES(:email_sender, :email_receiver, :quantity)
+QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
+        $statement = $this->database->connection()->prepare($query);
+
+        $statement->bindParam('email_sender', $email_sender, PDO::PARAM_STR);
+        $statement->bindParam('email_receiver', $email_receiver, PDO::PARAM_STR);
+        $statement->bindParam('quantity', $quantity, PDO::PARAM_STR);
+        $statement->execute();
+    }
+
+    public function findPendingRequests(string $email){
+        $query = <<<'QUERY'
+        SELECT email_sender, quantity FROM requests WHERE (email_receiver=:email AND paid = 0)
+QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
+        $statement = $this->database->connection()->prepare($query);
+
+        $statement->bindParam('email', $email, PDO::PARAM_STR);
+        $statement->execute();
+
+        $result = $statement->fetchAll();
+        if (sizeof($result)) {
+            $pending = array();
+            foreach ($result as $item) {
+                array_push($pending, new Requests($item->email_sender(), $item->quantity(), false));
+            }
+            return $pending;
+        }
+        return null;
     }
 }

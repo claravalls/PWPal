@@ -29,3 +29,12 @@ CREATE TABLE `transaction` (
         `quantity` FLOAT(8,2) UNSIGNED NOT NULL,
         PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `requests` (
+       `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+       `email_sender` VARCHAR(255) NOT NULL DEFAULT '',
+       `email_receiver` VARCHAR(255) NOT NULL DEFAULT '',
+       `quantity` FLOAT(8,2) UNSIGNED NOT NULL,
+       `paid` BOOLEAN DEFAULT FALSE,
+       PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -174,20 +174,7 @@ final class BankController
         );
     }
 
-    public function validateIban(string $iban)
-    {
-        $errors = [];
-        $validator = new Validator();
-
-        if (!$validator->validate($iban)) {
-            foreach ($validator->getViolations() as $violation) {
-                $errors [] = $violation;
-            }
-        }
-        return $errors;
-    }
-
-    function isValid(?string $email, ?float $number)
+    public function isValid(?string $email, ?float $number)
     {
         $errors = [];
 
@@ -200,6 +187,19 @@ final class BankController
                 $errors[] = sprintf('The amount is not valid, it must be positive and valid decimal number');
         }
 
+        return $errors;
+    }
+
+    public function validateIban(string $iban)
+    {
+        $errors = [];
+        $validator = new Validator();
+
+        if (!$validator->validate($iban)) {
+            foreach ($validator->getViolations() as $violation) {
+                $errors [] = $violation;
+            }
+        }
         return $errors;
     }
 
@@ -217,63 +217,6 @@ final class BankController
         }
         return false;
     }
-
-    public function showRequestMoneyPage (Request $request, Response $response): Response
-    {
-        if (!isset($_SESSION['user'])){
-            echo "<script>
-            alert('Log in to access to your bank account');
-            window.location.href='/sign-in';
-            </script>";
-        }
-        return $this->container->get('view')->render(
-            $response,
-            'requestMoney.twig',
-            [
-            ]
-        );
-    }
-
-    public function requestMoney(Request $request, Response $response): Response{
-        if (!isset($_SESSION['user'])){
-            echo "<script>
-            alert('Log in to access to your bank account');
-            window.location.href='/sign-in';
-            </script>";
-        }
-        $user = $_SESSION['user'];
-        $errors = $this->isValid($data['email'] ?? "", $data['amount']);
-        if(empty($errors)) {
-            $exists = $this->container->get('user_repository')->getUserToSend($data['email']);
-
-            if ($exists == true) {
-                //$this->container->get('user_repository')->updateMoney($user->email(), ($user->wallet() - $data['amount']));
-                //$this->container->get('user_repository')->newTransaction($user->email(), $data['email'], $data['amount']);
-                //newmoney = $this->container->get('user_repository')->getMoney($data['email']);
-                //$this->container->get('user_repository')->updateMoney($data['email'], ($newmoney + $data['amount']));
-                //$user->setWallet($user->wallet() - $data['amount']);
-                //$_SESSION['user'] = $user;
-                //$errors[] = "Transaction is finished successfully";
-                $errors[] = "Redirecting..";
-                $url = "/account/summary";
-            } else {
-                $errors[] = "The user email don't exist or don't have the account activated";
-            }
-
-        }
-
-        return $this->container->get('view')->render(
-            $response,
-            'requestMoney.twig',
-            [
-                'errors' => $errors,
-                'email' => $data['email'],
-                'amount' => $data['amount'],
-                'url' => $url ?? ''
-            ]
-            );
-        }
-
 
     public function showAllTransactions (Request $request, Response $response): Response
     {
