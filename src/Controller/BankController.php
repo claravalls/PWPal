@@ -92,8 +92,9 @@ final class BankController
         $bank = $this->container->get('user_repository')->findBankAccount($user->id());
         if($amount > 0.0){
             $this->container->get('user_repository')->addMoneyToWallet($user->id(), $amount + $user->wallet());
-            $message = 'Money added successfully to wallet';
+            $message = 'Money added successfully to wallet. Redirecting...';
             $_SESSION['user'] = $this->container->get('user_repository')->search($user->email(), "email");
+            $url = "/account/summary";
         }
         else{
             $message = 'This amount is not valid';
@@ -104,7 +105,8 @@ final class BankController
             [
                 'iban' => substr_replace ($bank->iban(), '****************', 6),
                 'bank' => $bank,
-                'load_message' => $message
+                'load_message' => $message,
+                'url' => $url
             ]
         );
     }
@@ -139,7 +141,7 @@ final class BankController
         {
             $data['amount'] = 0;
         }
-            $errors = $this->isValid($data['email'] ?? "", $data['amount']);
+        $errors = $this->isValid($data['email'] ?? "", $data['amount']);
         if(empty($errors)) {
             $exists = $this->container->get('user_repository')->getUserToSend($data['email']);
 
@@ -157,7 +159,7 @@ final class BankController
                     $errors[] = "Redirecting..";
                     $url = "/account/summary";
                 } else {
-                    $errors[] = "The user email don't exist or don't have the account activated";
+                    $errors[] = "This user email doesn't exist or doesn't have an activated account";
                 }
             }
         }
