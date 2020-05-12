@@ -1,12 +1,12 @@
 {% extends "base.twig" %}
 
-{% block title %}PwPay - Send Money{% endblock %}
+{% block title %}PwPay - Request Money{% endblock %}
 
 {% block content %}
 
     <div class="header_buttons">
         <div class="title">
-            <h1>Send money</h1>
+            <h1>Request money</h1>
         </div>
 
         <div class="buttons">
@@ -16,13 +16,13 @@
         </div>
     </div>
 
-    <form action="/account/money/send" method="POST" accept-charset="utf-8">
+    <form action="/account/money/requests" method="POST" accept-charset="utf-8">
         {% if url is not empty %}
             <meta http-equiv="refresh" content="2;url={{ url }}">
         {% endif %}
         <table>
             <tr>
-                <td><label for="email">Send money to</label></td>
+                <td><label for="email">Request money to</label></td>
                 <td><input type="email" id="email" name="email" value="{{ email }}" placeholder="Enter the email"></td>
             </tr>
             <tr>
@@ -38,7 +38,6 @@
             </ol>
         {% endif %}
         <br>
-        <button type="submit">Send</button>
+        <button type="submit">Request</button>
     </form>
 {% endblock %}
-

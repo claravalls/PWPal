@@ -78,17 +78,17 @@ $app->post(
 $app->get(
     '/account/bank-account',
     BankController::class . ":showBankAccount"
-)->setName('profile');
+)->setName('bank');
 
 $app->post(
     '/account/bank-account',
     BankController::class . ":addBankAccount"
-)->setName('profile');
+)->setName('bank');
 
 $app->post(
     '/account/bank-account/load',
     BankController::class . ":addMoneyToWallet"
-)->setName('profile');
+)->setName('addMoney');
 
 $app->get(
     '/account/money/send',
@@ -98,4 +98,14 @@ $app->get(
 $app->post(
     '/account/money/send',
     BankController::class . ":sendMoney"
-)->setName('profile');
+)->setName('sendMoney');
+
+$app->get(
+    '/account/money/requests',
+    BankController::class . ":showRequestMoneyPage"
+)->setName('pageRequest');
+
+$app->post(
+    '/account/money/requests',
+    BankController::class . ":requestMoney"
+)->setName('requestMoney');
