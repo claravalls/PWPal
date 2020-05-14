@@ -92,6 +92,7 @@ final class BankController
         $bank = $this->container->get('user_repository')->findBankAccount($user->id());
         if($amount > 0.0){
             $this->container->get('user_repository')->addMoneyToWallet($user->id(), $amount + $user->wallet());
+            $this->container->get('user_repository')->newTransaction("Bank Account", $user->email(), $amount);
             $message = 'Money added successfully to wallet. Redirecting...';
             $_SESSION['user'] = $this->container->get('user_repository')->search($user->email(), "email");
             $url = "/account/summary";
@@ -135,11 +136,11 @@ final class BankController
 
         $user = $_SESSION['user'];
         $user = $this->container->get('user_repository')->search($user->email(), "email");
-        $next_twig = 'pending.twig';
 
         if (!empty($_GET["request_id"])){
             $email = $_GET["email"];
             $amount = $_GET["amount"];
+            $next_twig = 'pending.twig';
         }
         else{
             $data = $request->getParsedBody();
@@ -151,7 +152,7 @@ final class BankController
             {
                 $amount = 0;
             }
-            $errors = $this->isValid($email ?? "", $amount ?? "");
+            $errors = $this->isValid($email ?? "", $amount);
         }
 
         if(empty($errors)) {
