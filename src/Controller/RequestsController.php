@@ -52,6 +52,4 @@ final class RequestsController
             ]
         );
     }
-
-
 }

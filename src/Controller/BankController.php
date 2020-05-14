@@ -126,37 +126,57 @@ final class BankController
         );
     }
     public function sendMoney(Request $request, Response $response): Response{
-
-        $data = $request->getParsedBody();
-
         if (!isset($_SESSION['user'])){
             echo "<script>
             alert('Log in to access to your bank account');
             window.location.href='/sign-in';
             </script>";
         }
+
         $user = $_SESSION['user'];
         $user = $this->container->get('user_repository')->search($user->email(), "email");
-        if(empty($data['amount']))
-        {
-            $data['amount'] = 0;
-        }
-        $errors = $this->isValid($data['email'] ?? "", $data['amount']);
-        if(empty($errors)) {
-            $exists = $this->container->get('user_repository')->getUserToSend($data['email']);
+        $next_twig = 'pending.twig';
 
-            if((float)$data['amount'] > $user->wallet()) {
+        if (!empty($_GET["request_id"])){
+            $email = $_GET["email"];
+            $amount = $_GET["amount"];
+        }
+        else{
+            $data = $request->getParsedBody();
+            $email = $data['email'];
+            $amount = $data['amount'];
+            $next_twig = 'sendmoney.twig';
+
+            if(empty($data['amount']))
+            {
+                $amount = 0;
+            }
+            $errors = $this->isValid($email ?? "", $amount ?? "");
+        }
+
+        if(empty($errors)) {
+            if ((float)$amount > $user->wallet()) {
                 $errors[] = "Insuficient money for the transaction";
-            }else {
+                if (!empty($_GET["request_id"])){
+                    $pending = $this->container->get('user_repository')->findPendingRequests($user->email());
+                }
+            } else {
+                $exists = $this->container->get('user_repository')->getUserToSend($email);
                 if ($exists == true) {
-                    $this->container->get('user_repository')->updateMoney($user->email(), ($user->wallet() - $data['amount']));
-                    $this->container->get('user_repository')->newTransaction($user->email(), $data['email'], $data['amount']);
-                    $newmoney = $this->container->get('user_repository')->getMoney($data['email']);
-                    $this->container->get('user_repository')->updateMoney($data['email'], ($newmoney + $data['amount']));
-                    $user->setWallet($user->wallet() - (float)$data['amount']);
+                    if (!empty($_GET["request_id"])){
+                        $this->container->get('user_repository')->setAsPaid((float)$_GET["request_id"]);
+                        $pending = $this->container->get('user_repository')->findPendingRequests($user->email());
+                    }
+                    $this->container->get('user_repository')->updateMoney($user->email(), ($user->wallet() - $amount));
+                    $this->container->get('user_repository')->newTransaction($user->email(), $email, $amount);
+                    $newmoney = $this->container->get('user_repository')->getMoney($email);
+                    $this->container->get('user_repository')->updateMoney($email, ($newmoney + $amount));
+                    $user->setWallet($user->wallet() - (float)$amount);
                     $_SESSION['user'] = $user;
                     $errors[] = "Transaction is finished successfully";
-                    $errors[] = "Redirecting..";
+                    if (empty($_GET["request_id"])){
+                        $errors[] = "Redirecting...";
+                    }
                     $url = "/account/summary";
                 } else {
                     $errors[] = "This user email doesn't exist or doesn't have an activated account";
@@ -166,12 +186,13 @@ final class BankController
 
         return $this->container->get('view')->render(
             $response,
-            'sendmoney.twig',
+            $next_twig,
             [
                 'errors' => $errors,
-                'email' => $data['email'],
-                'amount' => $data['amount'],
-                'url' => $url ?? ''
+                'email' => $email,
+                'amount' => $amount,
+                'url' => $url ?? '',
+                'pending' => $pending ?? ''
             ]
         );
     }

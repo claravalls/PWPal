@@ -377,4 +377,15 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         }
         return null;
     }
+
+    public function setAsPaid(float $request_id): void
+    {
+        $query = <<<'QUERY'
+        UPDATE requests set paid=1 WHERE id=:id
+QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
+        $statement = $this->database->connection()->prepare($query);
+
+        $statement->bindParam('id', $request_id, PDO::PARAM_STR);
+        $statement->execute();
+    }
 }
