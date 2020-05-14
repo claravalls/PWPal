@@ -134,6 +134,13 @@ final class BankController
             </script>";
         }
 
+        if (empty($_POST) && empty($_GET) ){
+            echo "<script>
+            alert('Invalid URL');
+            window.location.href='/account/summary';
+            </script>";
+        }
+
         $user = $_SESSION['user'];
         $user = $this->container->get('user_repository')->search($user->email(), "email");
 
@@ -141,6 +148,7 @@ final class BankController
             $email = $_GET["email"];
             $amount = $_GET["amount"];
             $next_twig = 'pending.twig';
+            $errors = $this->container->get('user_repository')->isTheRightUser($_GET["request_id"] ?? 0, $email);
         }
         else{
             $data = $request->getParsedBody();
@@ -158,15 +166,11 @@ final class BankController
         if(empty($errors)) {
             if ((float)$amount > $user->wallet()) {
                 $errors[] = "Insuficient money for the transaction";
-                if (!empty($_GET["request_id"])){
-                    $pending = $this->container->get('user_repository')->findPendingRequests($user->email());
-                }
             } else {
                 $exists = $this->container->get('user_repository')->getUserToSend($email);
                 if ($exists == true) {
                     if (!empty($_GET["request_id"])){
                         $this->container->get('user_repository')->setAsPaid((float)$_GET["request_id"]);
-                        $pending = $this->container->get('user_repository')->findPendingRequests($user->email());
                     }
                     $this->container->get('user_repository')->updateMoney($user->email(), ($user->wallet() - $amount));
                     $this->container->get('user_repository')->newTransaction($user->email(), $email, $amount);
@@ -183,6 +187,9 @@ final class BankController
                     $errors[] = "This user email doesn't exist or doesn't have an activated account";
                 }
             }
+        }
+        if (!empty($_GET["request_id"])) {
+            $pending = $this->container->get('user_repository')->findPendingRequests($user->email());
         }
 
         return $this->container->get('view')->render(

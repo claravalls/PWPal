@@ -388,4 +388,24 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $statement->bindParam('id', $request_id, PDO::PARAM_STR);
         $statement->execute();
     }
+
+    public function isTheRightUser (int $id, string $email){
+        $query = <<<'QUERY'
+        SELECT email_receiver FROM requests WHERE (id =:id)
+QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
+        $statement = $this->database->connection()->prepare($query);
+
+        $statement->bindParam('id', $id, PDO::PARAM_INT);
+        $statement->execute();
+
+        $result = $statement->fetchAll();
+        if (sizeof($result)) {
+            $error = array();
+            if(strcmp($result[0]['email_receiver'],$email) === 0){
+                array_push($error, "Invalid URL");
+            }
+            return $error;
+        }
+        return null;
+    }
 }
