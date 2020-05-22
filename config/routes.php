@@ -120,3 +120,8 @@ $app->get(
     '/account/money/requests/pending',
     RequestsController::class . ":showPendingRequestsPage"
 )->setName('pendingRequests');
+
+$app->get(
+    '/account/money/requests/{id}/accept',
+    BankController::class . ":sendMoney"
+)->setName('acceptRequest');
