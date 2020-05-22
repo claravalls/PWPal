@@ -7,6 +7,7 @@ use Iban\Validation\Iban;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use SallePW\SlimApp\Model\TransactionList;
 
 final class BankController
 {
@@ -262,6 +263,12 @@ final class BankController
         $user = $_SESSION['user'];
         $user = $this->container->get('user_repository')->search($user->email(), "email");
         $bank = $this->container->get('user_repository')->findBankAccount($user->id());
+
+        $list = $this->container->get('user_repository')->showAllTransactions($user->email());
+
+        $trans = $list->getAllTrans();
+        $signs = $list->getAllSigns();
+        $from = $list->getAllOtherUsers();
         if ($bank->id() > 0) {
             return $this->container->get('view')->render(
                 $response,
@@ -269,15 +276,28 @@ final class BankController
                 [
                     'iban' => substr_replace ($bank->iban(), '****************', 6),
                     'bank' => $bank,
-                    'wallet' => $user->wallet()
+                    'wallet' => $user->wallet(),
+                    'list' => $trans,
+                    'signs' => $signs,
+                    'tr_from' => $from
                 ]
             );
+
         }
         return $this->container->get('view')->render(
             $response,
             'transactions.twig',
             [
+                'iban' => $bank->iban(),
+                'bank' => $bank,
+                'wallet' => $user->wallet(),
+                'list' => $trans,
+                'signs' => $signs,
+                'tr_from' => $from
             ]
         );
+
     }
+
+
 }

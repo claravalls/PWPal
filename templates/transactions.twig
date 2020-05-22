@@ -20,14 +20,20 @@
         {% if url is not empty %}
             <meta http-equiv="refresh" content="2;url={{ url }}">
         {% endif %}
-        <h3>Current balance</h3>
+        <h3>IBAN: {{ iban }}</h3>
 
+        <h3>Current balance</h3>
         <input class="currentBalance" value="{{ wallet }} €" alt="Current balance" disabled>
 
-        <h3>IBAN: {{iban}}</h3>
-        <br>
-
         {#list of all transactions#}
+        <ul class="tr_list">
+            {% for trans in list %}
+                <div class="tr_list_item1">
+                    <input value="{{ tr_from[trans] }}" class="trans_email">
+                    <input value="{{ trans }}" class="{{ signs[trans] }}">
+                </div>
+            {% endfor %}
+        </ul>
         {% if errors is not empty %}
             <ol>
                 {% for error in errors %}
