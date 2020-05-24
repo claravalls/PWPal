@@ -20,56 +20,60 @@
         </div>
     </div>
 
-
     <br>
-    <form action="/profile" method="GET" accept-charset="utf-8">
-        <input type="image" src="{{ photo }}" alt="Profile picture">
-    </form>
-
-    <form action="/account/summary" method="GET" accept-charset="utf-8">
-        <div class="summaryDiv">
-            <h3>Current balance</h3>
-
-            <input class="currentBalance" value="{{ wallet }} €" alt="Current balance" disabled>
-
-            <h3>Latest transactions</h3>
-            <ul class="tr_list">
-                <div class="tr_list_item1">
-                    <input value="{{ other1 }}" class="trans_email">
-                    <input value="{{ trans1 }}" class="{{ sign1 }}" >
-                </div>
-
-                <div class="tr_list_item2">
-                    <input value="{{ other2 }}" class="trans_email">
-                    <input value="{{ trans2 }}" class="{{ sign2 }}" >
-                </div>
-
-                <div class="tr_list_item1">
-                    <input value="{{ other3 }}" class="trans_email">
-                    <input value="{{ trans3 }}" class="{{ sign3 }}" >
-                </div>
-
-                <div class="tr_list_item2">
-                    <input value="{{ other4 }}" class="trans_email">
-                    <input value="{{ trans4 }}" class="{{ sign4 }}" >
-                </div>
-                <div class="tr_list_item1">
-                    <input value="{{ other5 }}" class="trans_email">
-                    <input value="{{ trans5 }}" class="{{ sign5 }}" >
-                </div>
-
-            </ul>
+    <div class="menu">
+        <div>
+            <form action="/account/bank-account" method="GET" accept-charset="utf-8">
+                <button type="submit">Bank account</button>
+            </form>
+            <form action="/account/money/send" method="GET" accept-charset="utf-8">
+                <button type="submit">Send money</button>
+            </form>
+            <form action="/account/money/requests" method="GET" accept-charset="utf-8">
+                <button type="submit">Request money</button>
+            </form>
         </div>
-    </form>
+        <div>
+            <form action="/profile" method="GET" accept-charset="utf-8">
+                <input type="image" src="{{ photo }}" alt="Profile picture">
+            </form>
 
-    <form action="/account/bank-account" method="GET" accept-charset="utf-8">
-        <button type="submit">Bank account</button>
-    </form>
-    <form action="/account/money/send" method="GET" accept-charset="utf-8">
-        <button type="submit">Send money</button>
-    </form>
-    <form action="/account/money/requests" method="GET" accept-charset="utf-8">
-        <button type="submit">Request money</button>
-    </form>
+            <form action="/account/summary" method="GET" accept-charset="utf-8">
+                <div class="summaryDiv">
+                    <h3>Current balance</h3>
+
+                    <input class="currentBalance" value="{{ wallet }} €" alt="Current balance" disabled>
+
+                    <h3>Latest transactions</h3>
+                    <ul class="tr_list">
+                        <div class="tr_list_item1">
+                            <input value="{{ other1 }}" class="trans_email">
+                            <input value="{{ trans1 }}" class="{{ sign1 }}" >
+                        </div>
+
+                        <div class="tr_list_item2">
+                            <input value="{{ other2 }}" class="trans_email">
+                            <input value="{{ trans2 }}" class="{{ sign2 }}" >
+                        </div>
+
+                        <div class="tr_list_item1">
+                            <input value="{{ other3 }}" class="trans_email">
+                            <input value="{{ trans3 }}" class="{{ sign3 }}" >
+                        </div>
+
+                        <div class="tr_list_item2">
+                            <input value="{{ other4 }}" class="trans_email">
+                            <input value="{{ trans4 }}" class="{{ sign4 }}" >
+                        </div>
+                        <div class="tr_list_item1">
+                            <input value="{{ other5 }}" class="trans_email">
+                            <input value="{{ trans5 }}" class="{{ sign5 }}" >
+                        </div>
+
+                    </ul>
+                </div>
+            </form>
+        </div>
+    </div>
 
 {% endblock %}

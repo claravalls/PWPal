@@ -16,31 +16,42 @@
         </div>
     </div>
 
-    <form action="/account/transactions" method="GET" accept-charset="utf-8">
-        {% if url is not empty %}
-            <meta http-equiv="refresh" content="2;url={{ url }}">
-        {% endif %}
-        <h3>IBAN: {{ iban }}</h3>
+    <div class="menu">
+        <div>
+            <br>
+            <form action="/account/money/send" method="GET" accept-charset="utf-8">
+                <button type="submit">Send money</button>
+            </form>
+            <form action="/account/money/requests" method="GET" accept-charset="utf-8">
+                <button type="submit">Request money</button>
+            </form>
+        </div>
+        <form action="/account/transactions" method="GET" accept-charset="utf-8">
+            {% if url is not empty %}
+                <meta http-equiv="refresh" content="2;url={{ url }}">
+            {% endif %}
+            <h3>IBAN: {{ iban }}</h3>
 
-        <h3>Current balance</h3>
-        <input class="currentBalance" value="{{ wallet }} €" alt="Current balance" disabled>
+            <h3>Current balance</h3>
+            <input class="currentBalance" value="{{ wallet }} €" alt="Current balance" disabled>
 
-        {#list of all transactions#}
-        <ul class="tr_list">
-            {% for trans in list %}
-                <div class="tr_list_item1">
-                    <input value="{{ tr_from[loop.index] }}" class="trans_email">
-                    <input value="{{ trans }}" class="{{ signs[loop.index] }}">
-                </div>
-            {% endfor %}
-        </ul>
-        {% if errors is not empty %}
-            <ol>
-                {% for error in errors %}
-                    <p class="error">{{ error }}</p>
+            {#list of all transactions#}
+            <ul class="tr_list">
+                {% for trans in list %}
+                    <div class="tr_list_item1">
+                        <input value="{{ tr_from[loop.index] }}" class="trans_email">
+                        <input value="{{ trans }}" class="{{ signs[loop.index] }}">
+                    </div>
                 {% endfor %}
-            </ol>
-        {% endif %}
-        <br>
-    </form>
+            </ul>
+            {% if errors is not empty %}
+                <ol>
+                    {% for error in errors %}
+                        <p class="error">{{ error }}</p>
+                    {% endfor %}
+                </ol>
+            {% endif %}
+            <br>
+        </form>
+    </div>
 {% endblock %}

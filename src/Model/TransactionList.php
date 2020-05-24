@@ -23,8 +23,6 @@ final class TransactionList
         $this->other_user = $other_user;
     }
 
-
-
     public function setId(int $id): self
     {
         $this->id = $id;

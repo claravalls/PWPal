@@ -297,7 +297,7 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $list = new TransactionList();
         if (sizeof($result)) {
             for ($i = 0; $i < sizeof($result); $i++){
-                $list->setTransaction($i+1, (int)$result[$i]['quantity']);
+                $list->setTransaction($i+1, (float)$result[$i]['quantity']);
                 if ($result[$i]['email_sender'] == $result[$i]['email_receiver']){      //load money
                     $list->setSign($i+1, "positive_trans");
                     $list->setOtherUser($i+1, (String)'Income');
@@ -329,7 +329,7 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $list = new TransactionList();
         if (sizeof($result)) {
             for ($i = 0; $i < sizeof($result); $i++){
-                $list->setTransaction($i+1, (int)$result[$i]['quantity']);
+                $list->setTransaction($i+1, (float)$result[$i]['quantity']);
                 if ($result[$i]['email_sender'] == $result[$i]['email_receiver']){      //load money
                     $list->setSign($i+1, "positive_trans");
                     $list->setOtherUser($i+1, (String)'Income');

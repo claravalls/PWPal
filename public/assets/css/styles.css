@@ -202,3 +202,9 @@ td, th {
 .tr_pen:nth-child(even) {
 	background-color: #dddddd;
 }
+
+.menu{
+	display: grid;
+	grid-template-rows: 100%;
+	grid-template-columns: 20% 60% 20%;
+}
