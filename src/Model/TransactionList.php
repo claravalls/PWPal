@@ -13,14 +13,14 @@ final class TransactionList
     private array $other_user;      //email of the user who sent/receive transaction, or Income for load money
 
     public function __construct(
-        /*$transactions = [1=>0.0, 2=>0.0, 3=> 0.0, 4=>0.0, 5=>0.0],
+        $transactions = [1=>0.0, 2=>0.0, 3=> 0.0, 4=>0.0, 5=>0.0],
         $sign = [1=>"neutral_trans", 2=>"neutral_trans", 3=> "neutral_trans", 4=>"neutral_trans", 5=>"neutral_trans"],
-        $other_user = [1=>"", 2=>"", 3=> "", 4=>"", 5=>""]*/
+        $other_user = [1=>"", 2=>"", 3=> "", 4=>"", 5=>""]
 
     ){
-        $this->transactions = [1=>0.0, 2=>0.0, 3=> 0.0, 4=>0.0, 5=>0.0];
-        $this->sign = [1=>"neutral_trans", 2=>"neutral_trans", 3=> "neutral_trans", 4=>"neutral_trans", 5=>"neutral_trans"];
-        $this->other_user = [1=>"", 2=>"", 3=> "", 4=>"", 5=>""];
+        $this->transactions = $transactions;
+        $this->sign = $sign;
+        $this->other_user = $other_user;
     }
 
 

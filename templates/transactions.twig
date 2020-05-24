@@ -29,8 +29,8 @@
         <ul class="tr_list">
             {% for trans in list %}
                 <div class="tr_list_item1">
-                    <input value="{{ tr_from[trans] }}" class="trans_email">
-                    <input value="{{ trans }}" class="{{ signs[trans] }}">
+                    <input value="{{ tr_from[loop.index] }}" class="trans_email">
+                    <input value="{{ trans }}" class="{{ signs[loop.index] }}">
                 </div>
             {% endfor %}
         </ul>

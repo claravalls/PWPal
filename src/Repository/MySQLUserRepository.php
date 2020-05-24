@@ -290,41 +290,11 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
         $statement = $this->database->connection()->prepare($query);
 
         $statement->bindParam('email', $email, PDO::PARAM_STR);
-        $statement->bindParam('quantity', $quantity, PDO::PARAM_INT);
+        $statement->bindParam('quantity', $quantity, PDO::PARAM_STR);
         $statement->execute();
 
         $result = $statement->fetchAll();
         $list = new TransactionList();
-        if (sizeof($result)) {
-            for ($i = 0; $i < sizeof($result); $i++){
-                $list->setTransaction($i+1, (float)$result[$i]['quantity']);
-                if ($result[$i]['email_sender'] == $email){
-                    $list->setSign($i+1, "negative_trans");
-                    $list->setOtherUser($i+1, (String)$result[$i]['email_receiver']);
-                }else{
-                    $list->setSign($i+1, "positive_trans");
-                    $list->setOtherUser($i+1, (String)$result[$i]['email_sender']);
-                }
-            }
-        }
-
-        return $list;
-    }
-
-    public function showAllTransactions(String $email): TransactionList
-    {
-        $query = <<<'QUERY'
-        SELECT email_sender, email_receiver, quantity FROM transaction WHERE (email_sender=:email OR email_receiver=:email)
-        ORDER BY id DESC
-QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
-        $statement = $this->database->connection()->prepare($query);
-
-        $statement->bindParam('email', $email, PDO::PARAM_STR);
-        $statement->bindParam('quantity', $quantity, PDO::PARAM_INT);
-        $statement->execute();
-
-        $result = $statement->fetchAll();
-        $list = new TransactionList(sizeof($result));
         if (sizeof($result)) {
             for ($i = 0; $i < sizeof($result); $i++){
                 $list->setTransaction($i+1, (int)$result[$i]['quantity']);
@@ -340,7 +310,38 @@ QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
                 }
             }
         }
+        return $list;
+    }
 
+    public function showAllTransactions(String $email): TransactionList
+    {
+        $query = <<<'QUERY'
+        SELECT email_sender, email_receiver, quantity FROM transaction WHERE (email_sender=:email OR email_receiver=:email)
+        ORDER BY id DESC
+QUERY; //Syntax nowdoc. Important que el tancament no estigui tabulat.
+        $statement = $this->database->connection()->prepare($query);
+
+        $statement->bindParam('email', $email, PDO::PARAM_STR);
+        $statement->bindParam('quantity', $quantity, PDO::PARAM_STR);
+        $statement->execute();
+
+        $result = $statement->fetchAll();
+        $list = new TransactionList();
+        if (sizeof($result)) {
+            for ($i = 0; $i < sizeof($result); $i++){
+                $list->setTransaction($i+1, (int)$result[$i]['quantity']);
+                if ($result[$i]['email_sender'] == $result[$i]['email_receiver']){      //load money
+                    $list->setSign($i+1, "positive_trans");
+                    $list->setOtherUser($i+1, (String)'Income');
+                } else if ($result[$i]['email_sender'] == $email){                      //send money
+                    $list->setSign($i+1, "negative_trans");
+                    $list->setOtherUser($i+1, (String)$result[$i]['email_receiver']);
+                }else{                                                                  //receive money
+                    $list->setSign($i+1, "positive_trans");
+                    $list->setOtherUser($i+1, (String)$result[$i]['email_sender']);
+                }
+            }
+        }
         return $list;
     }
 

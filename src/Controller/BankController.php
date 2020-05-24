@@ -93,7 +93,7 @@ final class BankController
         $bank = $this->container->get('user_repository')->findBankAccount($user->id());
         if($amount > 0.0){
             $this->container->get('user_repository')->addMoneyToWallet($user->id(), $amount + $user->wallet());
-            $this->container->get('user_repository')->newTransaction("Bank Account", $user->email(), $amount);
+            $this->container->get('user_repository')->newTransaction($user->email(), $user->email(), $amount);
             $message = 'Money added successfully to wallet. Redirecting...';
             $_SESSION['user'] = $this->container->get('user_repository')->search($user->email(), "email");
             $url = "/account/summary";
@@ -289,8 +289,15 @@ final class BankController
 
     public function showAllTransactions (Request $request, Response $response): Response
     {
+
+        if (!isset($_SESSION['user'])){
+            echo "<script>
+            alert('Log in to access to your bank account');
+            window.location.href='/sign-in';
+            </script>";
+        }
+
         $user = $_SESSION['user'];
-        $user = $this->container->get('user_repository')->search($user->email(), "email");
         $bank = $this->container->get('user_repository')->findBankAccount($user->id());
 
         $list = $this->container->get('user_repository')->showAllTransactions($user->email());
