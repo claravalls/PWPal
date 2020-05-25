@@ -2,9 +2,16 @@
 
 {% block title %}PwPay - Home{% endblock %}
 
-{% block header %}Home page{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{{ full_url_for('home') }}assets/css/styles.css"/>
+{% endblock %}
+
+{% block header %} Home page {% endblock %}
+
+
 
 {% block content %}
+
     <div class="header_buttons">
         <div class="logout">
             <form action="/logout" method="POST" accept-charset="utf-8">
@@ -32,20 +39,37 @@
             {% endif %}
         </div>
     </div>
+
+    <div class="nav-menu">
+        <a class="active" href="/">Home</a>
+        <a href="/account/summary">Dashboard</a>
+        <a href="/account/bank-account">Bank account</a>
+        <a href="/account/transactions">Transactions</a>
+        <a href="/account/money/requests/pending">Pending requests</a>
+    </div>
+
+    <div class="description">
+        <p>Descubre PwPay, una forma fácil y segura de enviar y recibir pagos, y de transferir dinero online a amigos o familiares.</p>
+    </div>
+
     <br>
-    <form action="/account/summary" method="GET" accept-charset="utf-8">
-        <button type="submit">DashBoard</button>
-    </form>
-    <form action="/account/bank-account" method="GET" accept-charset="utf-8">
-        <button type="submit">Bank account</button>
-    </form>
-    <form action="/account/transactions" method="GET" accept-charset="utf-8">
-        <button type="submit">Transactions</button>
-    </form>
-    <form action="/account/money/requests/pending" method="GET" accept-charset="utf-8">
-        <button type="submit">Pending requests</button>
-    </form>
+    <div class="crop">
+        <img src="https://image.shutterstock.com/image-vector/people-sending-receiving-money-wireless-260nw-465600824.jpg" >
+    </div>
 
+    {% block footer %}
+        <div class="footer">
+            <br>
+            <img src="https://pbs.twimg.com/profile_images/908013780856135680/1qCImmj2_400x400.jpg" width="50" height="50" align="center">
+            <div>
+                <ul>
+                    <li>© 2020 </li>
+                    <br>
+                    <li>La Salle URL </li>
+                    <br>
+                    <li>Projectes Web II </li>
+                </ul>
+        </div>
+
+    {% endblock %}
 {% endblock %}
-
-{% block footer %}PW II - La Salle URL{% endblock %}
