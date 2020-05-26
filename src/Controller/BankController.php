@@ -233,7 +233,13 @@ final class BankController
         }
         $user = $_SESSION['user'];
         $user = $this->container->get('user_repository')->search($user->email(), "email");
-        $errors = $this->isValid($data['email'] ?? "", $data['amount']);
+        $amount = $data['amount'];
+        if(empty($data['amount']))
+        {
+            $amount = 0;
+        }
+
+        $errors = $this->isValid($data['email'] ?? "", $amount);
         if(empty($errors)) {
             $exists = $this->container->get('user_repository')->getUserToSend($data['email']);
 
